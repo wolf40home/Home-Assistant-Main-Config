@@ -1,0 +1,8 @@
+   
+sensor:
+
+  - platform: mqtt
+    name: RF Bridge Result
+    state_topic: nodered/rfbridge/RFRECEIVED
+
+         

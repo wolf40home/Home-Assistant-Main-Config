@@ -1,0 +1,43 @@
+
+binary_sensor:   
+  - platform: mqtt
+    name: "Haustuer Kontakt"
+    state_topic: 'nodered/alarmkontakte/Haustuer'
+    device_class: door
+    
+  - platform: mqtt
+    name: "Treppenfenster Kontakt"
+    state_topic: 'nodered/alarmkontakte/FensterTreppe'
+    device_class: window
+    
+  - platform: mqtt
+    name: "WC Fenster Kontakt"
+    state_topic: 'nodered/alarmkontakte/FensterWc'
+    device_class: window
+
+  - platform: mqtt
+    name: "Vorratsfenster Kontakt"
+    state_topic: 'nodered/alarmkontakte/FensterVorrat'
+    device_class: window
+   
+sensor:
+  - platform: mqtt
+    name: "Vorrat Temperatur"
+    state_topic: lschaltervor/Sensor/Temperature
+    unit_of_measurement: '°C'
+    device_class: temperature
+  - platform: mqtt
+    name: "Vorrat Feuchte"
+    state_topic: lschaltervor/Sensor/Humidity
+    unit_of_measurement: '%'
+    device_class: humidity
+
+
+input_number:
+
+  in_temp_flur:
+    name: Flurtemperatur
+    mode: slider
+    min: 18
+    max: 24
+    step: 0.5

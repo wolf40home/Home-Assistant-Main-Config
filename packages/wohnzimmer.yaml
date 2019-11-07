@@ -1,0 +1,179 @@
+
+input_number:
+  auto_light_offset_off:
+    name: Minuten nach 22Uhr
+    icon: mdi:timer
+    min: 0
+    max: 120
+    step: 10
+
+  auto_aquarium_offset_on:
+    name: Minuten vor Sonnenaufgang
+    icon: mdi:timer
+    min: 0
+    max: 60
+    step: 10
+
+  in_mpd_wohn:
+    name: Wohnlautstärke
+    mode: slider
+    min: 0
+    max: 1
+    step: 0.05  
+
+  in_mpd_volume:
+    name: Masterlautstärke
+    mode: slider
+    min: 0
+    max: 1
+    step: 0.05
+
+  in_temp_wohnzimmer:
+    name: Wohnzimmertemperatur
+    mode: slider
+    min: 18
+    max: 24
+    step: 0.5
+    
+binary_sensor:
+  - platform: mqtt
+    name: "Wohnzimmerfenster Kontakt"
+    state_topic: 'nodered/alarmkontakte/FensterWohnzimmer'
+    device_class: window
+  - platform: mqtt
+    name: "Wohnzimmerfenster Kontakt L"
+    state_topic: 'nodered/alarmkontakte/FensterWohnzimmerL'
+    device_class: window
+  - platform: mqtt
+    name: "Wohnzimmerfenster Kontakt R"
+    state_topic: 'nodered/alarmkontakte/FensterWohnzimmerR'
+    device_class: window
+    
+  - platform: mqtt
+    name: "Wohnzimmertuer Kontakt"
+    state_topic: 'nodered/alarmkontakte/Wohnzimmertuer'
+    device_class: door
+
+
+sensor:
+  - platform: template
+    sensors:
+      auto_aquarium_start:
+        friendly_name: 'Lichter an um '
+        value_template: '{{ (as_timestamp(states.sun.sun.attributes.next_rising) - (states("input_number.auto_aquarium_offset_on") | int)  * 60)  | timestamp_custom("%H:%M") }}'
+      auto_aquarium_stop:
+        friendly_name: 'Lichter aus um '
+        value_template: '{{ (as_timestamp("2017-06-09T20:00:00+00:00") + (states("input_number.auto_light_offset_off") | int)  * 60)  | timestamp_custom("%H:%M") }}'
+
+
+  - platform: min_max
+    name: Wohnzimmer Temperatur mid
+    entity_ids:
+      - sensor.licht_aquarium_bme280_temperatur
+      - sensor.wohnzimmer_heizung_sofa_temperature
+      - sensor.heizung_wohnzimmer1_temperature
+
+  - platform: mqtt
+    name: "Wohnzimmer Temperatur"
+    state_topic: aquarium/Sensor/Temperature
+    unit_of_measurement: '°C'
+    device_class: temperature
+    
+  - platform: mqtt
+    name: "Wohnzimmer Feuchte"
+    state_topic: aquarium/Sensor/Humidity
+    unit_of_measurement: '%'
+    device_class: humidity
+
+  - platform: mqtt
+    name: "Wohnzimmer Druck"
+    state_topic: aquarium/Sensor/Pressure
+    unit_of_measurement: 'hPa'
+    device_class: pressure
+
+  
+    
+media_player:
+
+
+  - platform: enigma2
+    name: VUSolo4K
+    port: 81
+    host: vusolo4k.steiner.net
+ 
+  - platform: samsungtv_custom
+    host: 10.10.0.121
+    name: Wohnzimmer-Fernseher
+    port: 8002
+    mac: B8:BC:5B:26:80:96
+    sourcelist: '{"Tuner": "KEY_HDMI1"}'
+    applist: "YouTube, Netflix" #(only for QLED and similar)
+    protocol: ctl_qled
+    
+  - platform: onkyo
+    host: wohnzimmer-tuner.steiner.net
+    name: Wohnzimmer-Tuner
+    sources:
+      video1: 'DVD'
+      video2: 'SAT'
+      video3: 'Game'
+      video4: 'BOX'
+      network: 'Netzwerk'
+      bluetooth: 'Bluetooth'
+      usb_usb: 'Usb vorne'
+      usb: 'Usb hinten'
+
+
+    
+switch:
+  - platform: mqtt
+    name: RSH Wohnzimmer
+    state_topic: nodered/harmony/rshwohn
+    command_topic: nodered/harmony/rshwohn
+    qos: 2
+    retain: false
+    
+
+automation:
+
+ 
+  - alias: Lautstaerke - Wohn
+    trigger:
+      platform: state
+      entity_id: input_number.in_mpd_wohn
+    condition:
+      condition: state
+      entity_id: media_player.pi_media_mpd
+      state: 'playing'
+    action:
+      - service: media_player.volume_set
+        # Note the use of 'data_template:' below rather than the normal 'data:' if you weren't using an input variable
+        data_template:
+          entity_id: media_player.snapcast_client_b827ebf3f72e_2
+          volume_level: '{{ trigger.to_state.state }}'
+      - service: script.notify_mqtt
+        data:
+          message: '*Radio* \n Wohnlautstaerke {{ trigger.to_state.state }}'
+
+  - alias: Lautstaerke - Master
+    trigger:
+      platform: state
+      entity_id: input_number.in_mpd_volume
+    condition:
+      condition: state
+      entity_id: media_player.pi_media_mpd
+      state: 'playing'
+    action:
+      - service: media_player.volume_set
+        # Note the use of 'data_template:' below rather than the normal 'data:' if you weren't using an input variable
+        data_template:
+          entity_id: media_player.pi_media_mpd
+          volume_level: '{{ trigger.to_state.state }}'
+      - service: script.notify_mqtt
+        data:
+          message: "*Radio* \n Masterlautstaerke"
+      - service: notify.wolfgang
+        data:
+          title: '*Radio*'
+          message: 'Masterlautstärke {{ trigger.to_state.state }}' 
+

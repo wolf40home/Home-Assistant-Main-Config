@@ -1,0 +1,36 @@
+#-------------------------------------------
+#  Logbook Component
+#-------------------------------------------
+include:
+  domains:
+    - sensor
+    - binary_sensor
+    - switch
+    - media_player
+    - light
+exclude:
+  entities:
+    - sensor.s_time_date
+    - sensor.date
+    - sensor.time
+    - sensor.time_utc
+    - sensor.swap_used
+    - sensor.ram_free
+    - sensor.cpu_used
+    - sensor.average_load_1m
+    - sensor.rf_bridge_lz
+    - sensor.speicher_schalter_basteln_lz
+    - sensor.licht_treppe_speicher_lz
+    - sensor.pow_buero_lz
+    - sensor.rollladen_buero_lz
+    - sensor.rollladen_schlafzimmer_lz
+    - sensor.schalter_aquarium_lz
+    - sensor.radio_schalter_kueche_lz
+    - sensor.pow_kaffee_lz
+    - sensor.lade_schalter_vorrat_lz
+    - sensor.licht_keller_flur_lz
+    - sensor.radio_schalter_keller_lz
+    - sensor.pow_garage_lz
+    - sensor.licht_garage_lz
+    - sensor.licht_led_lz
+    - automation.sonoff_tele

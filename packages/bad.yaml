@@ -1,0 +1,39 @@
+
+
+input_number:
+  in_temp_bad:
+    name: Bad Soll Temperatur 
+    mode: slider
+    min: 18
+    max: 24
+    step: 0.5
+    unit_of_measurement: °C
+    
+
+binary_sensor:
+
+    
+  - platform: mqtt
+    name: "Badfenster1 Kontakt"
+    state_topic: 'nodered/alarmkontakte/fensterbuero'
+    device_class: window
+
+
+sensor:    
+  - platform: mqtt
+    name: "Bad Temperatur"
+    state_topic: tsensorbad/Sensor/Temperature
+    unit_of_measurement: '°C'
+    device_class: temperature
+    
+  - platform: mqtt
+    name: "Bad Feuchte"
+    state_topic: tsensorbad/Sensor/Humidity
+    unit_of_measurement: '%'
+    device_class: humidity
+    
+  - platform: mqtt
+    name: "Bad Druck"
+    state_topic: tsensorbad/Sensor/Pressure
+    unit_of_measurement: 'hPa'
+    device_class: pressure

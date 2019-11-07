@@ -1,0 +1,81 @@
+logger:
+  default: critical
+  logs:
+    homeassistant.core: fatal
+    homeassistant.components.mqtt: warning
+    homeassistant.components.rest: warn
+    homeassistant.components.zha: warn
+    homeassistant.components.camera: warn
+    homeassistant.components.sun: warn
+    homeassistant.components.remote: warn
+    homeassistant.components.switch: warn
+    homeassistant.components.sensor: error
+    homeassistant.components.sensor.snmp: critical
+    homeassistant.components.script: warn
+    homeassistant.components.tts: warn
+    homeassistant.components.media_player: critical
+    homeassistant.components.samsungtv: notset
+    homeassistant.components.input_select: warn
+    homeassistant.components.input_number: critical
+    homeassistant.components.http: warn
+    homeassistant.components.shell_command: warn
+    homeassistant.components.device_tracker: warn
+    homeassistant.components.automation: warn
+    homeassistant.components.websocket: critical
+    homeassistant.components.discovery: warn
+    homeassistant.components.light: warn
+    homeassistant.components.wink: warn
+    homeassistant.custom_components: critical
+    homeassistant.components.camera.usps: warn
+    homeassistant.components.usps: warn
+    homeassistant.components.sensor.usps: warn
+    homeassistant.components.feedreader: warn
+    homeassistant.components: critical
+    homeassistant.components.binary_sensor.mqtt: error
+    bellows.uart: warn
+    homeassistant.helpers.script: warn
+    homeassistant.helpers.entity: warn
+    homeassistant.helpers.restore_state: warn
+    homeassistant.helpers.template: critical
+    homeassistant.loader: warn
+    homeassistant.setup: warn
+    media_player.wohnzimmer_fernseher: notset
+    ## cmake 
+    media_player.wohnzimmer_tuner_2: critical
+    phue: warn
+    plexapi: warn
+    roku: warn
+    dlipower.dlipower: error
+    myusps: warn
+    pubnub: warn
+
+
+
+  ################### Logger level
+input_select:
+  log_level:
+    name: Log Level
+    options:
+     - warn
+     - critical
+     - fatal
+     - error
+     - warning
+     - warn
+     - info
+     - debug
+     - notset
+    initial: critical
+
+
+  ############################# Sets Logging Level
+automation:
+  - alias: Log Level
+    trigger:
+      - platform: state
+        entity_id: input_select.log_level
+    action:
+      - service: logger.set_level
+        data_template:
+          homeassistant.components: "{{ trigger.to_state.state }}"
+          

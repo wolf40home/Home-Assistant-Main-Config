@@ -1,0 +1,18 @@
+sensor:
+  - platform: mqtt
+    name: "Speicher Temperatur"
+    state_topic: speicherbasteln/Sensor/Temperature
+    unit_of_measurement: '°C'
+    device_class: temperature
+    
+  - platform: mqtt
+    name: "Speicher Feuchte"
+    state_topic: speicherbasteln/Sensor/Humidity
+    unit_of_measurement: '%'
+    device_class: humidity
+
+  - platform: mqtt
+    name: "Speicher Druck"
+    state_topic: speicherbasteln/Sensor/Pressure
+    unit_of_measurement: 'hPa'
+    device_class: pressure

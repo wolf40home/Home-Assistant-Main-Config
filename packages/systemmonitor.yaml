@@ -1,0 +1,129 @@
+sensor:
+  - platform: glances
+    host: 127.0.0.1
+    name: nuc
+#    username: login
+#    password: password
+    version: 3
+    resources:
+      - 'processor_load'
+      - 'memory_use_percent'
+      - 'disk_use_percent' #The used disk space in percent.
+      - 'disk_free' # The free disk space.
+      - 'memory_use_percent' # The used memory in percent.
+      - 'memory_use' # The used memory.
+      - 'memory_free' # The free memory.
+      - 'swap_use_percent' # The used swap space in percent.
+      - 'processor_load' # The load.
+      - 'process_running' # The number of running processes.
+      - 'process_total' #The total number of processes.
+      - 'process_thread' # The number of threads.
+      - 'process_sleeping' # The number of sleeping processes.
+      - 'cpu_use_percent' # The used CPU in percent.
+      - 'cpu_temp' #The CPU temperature (may not be available on all platforms).
+      - 'docker_active' # The count of active Docker containers.
+      - 'docker_cpu_use' # The total CPU usage in percent of Docker containers.
+      - 'docker_memory_use' # The total memory used by Docker containers.
+
+  - platform: glances
+    host: pi-dm
+    name: pi-dm
+#    username: login
+#    password: password
+    version: 3
+    resources:
+      - 'processor_load'
+      - 'memory_use_percent'
+      - 'disk_use_percent' #The used disk space in percent.
+      - 'disk_free' # The free disk space.
+      - 'memory_use_percent' # The used memory in percent.
+      - 'memory_use' # The used memory.
+      - 'memory_free' # The free memory.
+      - 'swap_use_percent' # The used swap space in percent.
+      - 'processor_load' # The load.
+      - 'process_running' # The number of running processes.
+      - 'process_total' #The total number of processes.
+      - 'process_thread' # The number of threads.
+      - 'process_sleeping' # The number of sleeping processes.
+      - 'cpu_use_percent' # The used CPU in percent.
+      - 'cpu_temp' #The CPU temperature (may not be available on all platforms).
+      - 'docker_active' # The count of active Docker containers.
+      - 'docker_cpu_use' # The total CPU usage in percent of Docker containers.
+      - 'docker_memory_use' # The total memory used by Docker containers.
+
+  - platform: glances
+    host: pi-dw1
+    name: pi-dw1
+#    username: login
+#    password: password
+    version: 3
+    resources:
+      - 'processor_load'
+      - 'memory_use_percent'
+      - 'disk_use_percent' #The used disk space in percent.
+      - 'disk_free' # The free disk space.
+      - 'memory_use_percent' # The used memory in percent.
+      - 'memory_use' # The used memory.
+      - 'memory_free' # The free memory.
+      - 'swap_use_percent' # The used swap space in percent.
+      - 'processor_load' # The load.
+      - 'process_running' # The number of running processes.
+      - 'process_total' #The total number of processes.
+      - 'process_thread' # The number of threads.
+      - 'process_sleeping' # The number of sleeping processes.
+      - 'cpu_use_percent' # The used CPU in percent.
+      - 'cpu_temp' #The CPU temperature (may not be available on all platforms).
+      - 'docker_active' # The count of active Docker containers.
+      - 'docker_cpu_use' # The total CPU usage in percent of Docker containers.
+      - 'docker_memory_use' # The total memory used by Docker containers.
+      
+  - platform: glances
+    host: pi-radiob3
+    name: pi-radiob3
+#    username: login
+#    password: password
+    version: 3
+    resources:
+      - 'processor_load'
+      - 'memory_use_percent'
+      - 'disk_use_percent' #The used disk space in percent.
+      - 'disk_free' # The free disk space.
+      - 'memory_use_percent' # The used memory in percent.
+      - 'memory_use' # The used memory.
+      - 'memory_free' # The free memory.
+      - 'swap_use_percent' # The used swap space in percent.
+      - 'processor_load' # The load.
+      - 'process_running' # The number of running processes.
+      - 'process_total' #The total number of processes.
+      - 'process_thread' # The number of threads.
+      - 'process_sleeping' # The number of sleeping processes.
+      - 'cpu_use_percent' # The used CPU in percent.
+      - 'cpu_temp' #The CPU temperature (may not be available on all platforms).
+      - 'docker_active' # The count of active Docker containers.
+      - 'docker_cpu_use' # The total CPU usage in percent of Docker containers.
+      - 'docker_memory_use' # The total memory used by Docker containers.
+
+  - platform: glances
+    host: pi-hole
+    name: pi-holes
+#    username: login
+#    password: password
+    version: 3
+    resources:
+      - 'processor_load'
+      - 'memory_use_percent'
+      - 'disk_use_percent' #The used disk space in percent.
+      - 'disk_free' # The free disk space.
+      - 'memory_use_percent' # The used memory in percent.
+      - 'memory_use' # The used memory.
+      - 'memory_free' # The free memory.
+      - 'swap_use_percent' # The used swap space in percent.
+      - 'processor_load' # The load.
+      - 'process_running' # The number of running processes.
+      - 'process_total' #The total number of processes.
+      - 'process_thread' # The number of threads.
+      - 'process_sleeping' # The number of sleeping processes.
+      - 'cpu_use_percent' # The used CPU in percent.
+      - 'cpu_temp' #The CPU temperature (may not be available on all platforms).
+
+  

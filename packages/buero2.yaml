@@ -1,0 +1,72 @@
+input_number:
+  in_temp_buero2:
+    name: Büro2 Soll Temperatur 
+    mode: slider
+    min: 18
+    max: 24
+    step: 0.5
+    unit_of_measurement: °C
+    
+sensor:
+   
+# Fritzbox
+  - platform: fritzbox_netmonitor
+    host: fritz.box
+
+
+  - platform: template
+    sensors:
+      fritz_transmission_down_speed:
+        friendly_name: "Aktuelle Datenrate down"
+        unit_of_measurement: 'kbit/s'
+        value_template: >-
+          {% if states.sensor.fritz_netmonitor.attributes.transmission_rate_down|float > 0  %}
+            {{ '{:.0f}'.format(states.sensor.fritz_netmonitor.attributes.transmission_rate_down|float/ 1024*8) }}
+          {% else %}
+            0
+          {% endif %}  
+      fritz_transmission_up_speed:
+        friendly_name: "Aktuelle Datenrate up"
+        unit_of_measurement: 'kbit/s'
+        value_template: >- 
+          {% if states.sensor.fritz_netmonitor.attributes.transmission_rate_up|float > 0  %}
+            {{ '{:.0f}'.format(states.sensor.fritz_netmonitor.attributes.transmission_rate_up|float/ 1024*8) }}
+          {% else %}
+            0
+          {% endif %}  
+      fritz_max_down_speed:
+        friendly_name: "Leitungskapazität down"
+        unit_of_measurement: 'kbit/s'
+        value_template: "{{ '{:.0f}'.format(states.sensor.fritz_netmonitor.attributes.max_byte_rate_down|float/ 1024*8) }}"  
+      fritz_max_up_speed:
+        friendly_name: "Leitungskapazität up"
+        unit_of_measurement: 'kbit/s'
+        value_template: "{{ '{:.0f}'.format(states.sensor.fritz_netmonitor.attributes.max_byte_rate_up|float/ 1024*8) }}" 
+      fritz_received:
+        friendly_name: "Empfangen"
+        unit_of_measurement: 'kbit/s'
+        value_template: "{{ '{:.0f}'.format(states.sensor.fritz_netmonitor.attributes.bytes_received|float/ 1024*8) }}"  
+      fritz_send:
+        friendly_name: "Gesendet"
+        unit_of_measurement: 'kbit/s'
+        value_template: "{{ '{:.0f}'.format(states.sensor.fritz_netmonitor.attributes.bytes_sent|float/ 1024*8) }}" 
+        
+   
+  - platform: mqtt
+    name: "Büro2 Temperatur"
+    state_topic: tsensorbuero2/Sensor/Temperature
+    unit_of_measurement: '°C'
+    device_class: temperature
+    
+  - platform: mqtt
+    name: "Büro2 Feuchte"
+    state_topic: tsensorbuero2/Sensor/Humidity
+    unit_of_measurement: '%'
+    device_class: humidity
+    
+  - platform: mqtt
+    name: "Büro2 Druck"
+    state_topic: tsensorbuero2/Sensor/Pressure
+    unit_of_measurement: 'hPa'
+    device_class: pressure
+

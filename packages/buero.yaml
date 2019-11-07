@@ -1,0 +1,69 @@
+
+
+input_number:
+  in_temp_buero:
+    name: Büro Soll Temperatur 
+    mode: slider
+    min: 18
+    max: 24
+    step: 0.5
+    unit_of_measurement: °C
+    
+
+binary_sensor:
+
+  - platform: mqtt
+    state_topic: "rf434/state"
+    name: "rf434"
+    device_class: power
+    payload_on: "online"
+    payload_off: "offline"
+    value_template: '{{ value_json.state }}'
+    
+  - platform: mqtt
+    name: gt9000_197432_1
+    state_topic: RF433/FB1
+
+
+  - platform: mqtt
+    name: gt9000_197432_3
+    state_topic: RF433/FB2
+
+  - platform: mqtt
+    name: gt9000_197432_4
+    state_topic: RF433/FB4
+
+    
+  - platform: mqtt
+    name: "Bürofenster Kontakt"
+    state_topic: 'nodered/alarmkontakte/fensterbuero'
+    device_class: window
+
+
+sensor:    
+  - platform: mqtt
+    name: "Büro Temperatur"
+    state_topic: tsensorbuero/Sensor/Temperature
+    unit_of_measurement: '°C'
+    device_class: temperature
+    
+  - platform: mqtt
+    name: "Büro Feuchte"
+    state_topic: tsensorbuero/Sensor/Humidity
+    unit_of_measurement: '%'
+    device_class: humidity
+    
+  - platform: mqtt
+    name: "Büro Druck"
+    state_topic: tsensorbuero/Sensor/Pressure
+    unit_of_measurement: 'hPa'
+    device_class: pressure
+
+  - platform: template
+    sensors:
+      buro_soll:
+        friendly_name: "Büro Sollwert"
+        unit_of_measurement: '°C'
+        value_template: "{{ state_attr('climate.heizung_buero_heating', 'temperature') }}"
+       
+

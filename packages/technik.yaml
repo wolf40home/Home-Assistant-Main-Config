@@ -1,0 +1,46 @@
+homeassistant:
+  customize:
+    group.all_automations:
+      hidden: false
+    group.all_scripts:
+      hidden: false
+
+      
+sensor:
+
+# Bewegung zählen
+  - platform: mqtt
+    state_topic: "ltreppeoben/tele/COUNT"
+    name: Bewegung oben Count
+  - platform: mqtt
+    state_topic: "lgarage/tele/COUNT"
+    name: Bewegung Garage Count    
+  - platform: mqtt
+    state_topic: "lkellerflur/tele/COUNT"
+    name: Bewegung Keller Count    
+  - platform: mqtt
+    name: Node Red Neue Version
+    state_topic: "nodered/tele/nversion"
+  - platform: mqtt
+    name: Anrufer
+    state_topic: "stat/fitzbox/call"    
+    
+binary_sensor:
+
+  - platform: mqtt
+    name: Node Red LWT
+    state_topic: nodered/tele/LWT
+    payload_on: Online
+    payload_off: Offline
+    device_class: connectivity 
+    
+automation:      
+  - alias: "Power state on HA start-up"
+    trigger:
+      platform: homeassistant
+      event: start
+    action:
+      - service: mqtt.publish
+        data:
+          topic: "sonoffs/cmnd/Status"
+          payload: "2" 

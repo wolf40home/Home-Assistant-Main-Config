@@ -1,0 +1,22 @@
+
+input_number:
+
+  in_ltreppeoben:
+    name: Licht Treppe Speicher Zeit
+    mode: slider
+    min: 15
+    max: 240
+    step: 1
+
+sensor:    
+  - platform: mqtt
+    name: "Oben Treppe Temperatur"
+    state_topic: ltreppeoben/Sensor/Temperature
+    unit_of_measurement: '°C'
+    device_class: temperature
+  - platform: mqtt
+    name: "Oben Treppe  Feuchte"
+    state_topic: ltreppeoben/Sensor/Humidity
+    unit_of_measurement: '%'
+    device_class: humidity
+

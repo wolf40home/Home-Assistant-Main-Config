@@ -1,0 +1,58 @@
+#homeassistant:
+#  customize:
+binary_sensor:   
+  - platform: mqtt
+    name: "Garagentür Innen"
+    state_topic: 'nodered/alarmkontakte/garagetuerinnen'
+    device_class: door
+
+#Licht Garage
+
+input_number:
+
+  in_lgarage:
+    name: Licht Garage Zeit
+    mode: slider
+    min: 15
+    max: 60
+    step: 1
+
+sensor:    
+  - platform: mqtt
+    name: "Garage Temperatur"
+    state_topic: lgarage/Sensor/Temperature
+    unit_of_measurement: '°C'
+    device_class: temperature
+  - platform: mqtt
+    name: "Garage Feuchte"
+    state_topic: lgarage/Sensor/Humidity
+    unit_of_measurement: '%'
+    device_class: humidity
+
+
+automation:
+
+  - alias: Wasser An
+    trigger:
+      platform: state
+      entity_id: switch.pow_garage
+      from: 'off'
+      to: 'on'
+    action:
+      - service: script.notify_mqtt
+        data:
+          message: "*Brunnen* \n an"
+
+
+
+  - alias: Wasser Aus
+    trigger:
+      platform: state
+      entity_id: switch.pow_garage
+      from: 'on'
+      to: 'off'
+    action:
+      - service: script.notify_mqtt
+        data:
+          message: "*Brunnen* \n aus"
+      

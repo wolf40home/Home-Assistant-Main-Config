@@ -1,0 +1,73 @@
+
+###############################################################################
+# Feel free to add/modify and customize the themes below to your heart's content
+# Some of the themes I made, some I stole from online :)
+  ################### Logger level
+input_select:
+  theme_select:
+    name: Theme Select
+    options:
+     - amoled
+     - dark_orange
+     - dark_teal
+     - grey_night
+     - halloween
+     - midnight
+     - dark_red
+     - dark_cyan
+     - light_beach
+     - light_green
+     - light_pink
+     - default
+    initial: default
+
+
+###############################################################################
+# Automations
+###############################################################################
+automation:
+#             {{ ["light_beach", "light_green", "light_pink", "PmxMonolight", "default"] | random  }}
+#          name: '{{ ["light_beach", "light_green", "light_pink",  "PmxMonolight", "default"] | random  }}'
+  - alias: Random Theme At Startup
+    trigger:
+      - platform: homeassistant
+        event: start
+    action:
+       - service_template: frontend.set_theme
+         data_template:
+           name: >
+             {% if states.sun.sun.state == "above_horizon" %}
+             {{ ["light_beach", "light_green", "light_pink", "default"] | random  }}
+             {% else %}
+             {{ ["amoled","dark_cyan", "dark_red", "dark_orange", "dark_teal","grey_night", "midnight","halloween"] | random  }}
+             {% endif %}
+  - alias: Random Darker Theme At Sunset
+    initial_state: true
+    hide_entity: true
+    trigger:
+      platform: sun
+      event: sunset
+    action:
+      - service: frontend.set_theme
+        data_template:
+          name: '{{ ["amoled","dark_cyan", "dark_red", "dark_orange", "dark_teal","grey_night", "midnight","halloween"] | random  }}'
+
+  - alias: Random Lighter Theme At Sunrise
+    initial_state: true
+    hide_entity: true
+    trigger:
+      platform: sun
+      event: sunrise
+    action:
+      - service: frontend.set_theme
+        data_template:
+          name: '{{ ["light_beach", "light_green", "light_pink", "default"] | random  }}'
+
+  - alias: Theme set automation
+    trigger:
+      - platform: state
+        entity_id: input_select.theme_select
+    action:
+      - service: frontend.set_theme
+        data_template:
+          name: "{{ trigger.to_state.state }}"

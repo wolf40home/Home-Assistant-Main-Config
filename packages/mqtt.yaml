@@ -1,0 +1,49 @@
+sensor:
+#broker
+  - platform: mqtt
+    state_topic: "$SYS/broker/subscriptions/count"
+    name: Broker subscriptions count
+  - platform: mqtt
+    state_topic: "$SYS/broker/version"
+    name: Broker Version
+  - platform: mqtt
+    state_topic: "$SYS/broker/uptime"
+    name: Broker uptime
+
+#Clients
+  - platform: mqtt
+    state_topic: "$SYS/broker/clients/active"
+    name: Clients aktiv
+  - platform: mqtt
+    state_topic: "$SYS/broker/clients/maximum"
+    name: Clients maximum
+  - platform: mqtt
+    state_topic: "$SYS/broker/clients/total"
+    name: Clients total
+  - platform: mqtt
+    state_topic: "$SYS/broker/clients/expired"
+    name: Clients expired
+  - platform: mqtt
+    state_topic: "$SYS/broker/clients/expired"
+    name: Broker Clients expired
+    
+#messages
+  - platform: mqtt
+    state_topic: "$SYS/broker/publish/messages/received"
+    name: Messages received
+  - platform: mqtt
+    state_topic: "$SYS/broker/messages/sent"
+    name: Messages sent
+  - platform: mqtt
+    state_topic: "$SYS/broker/retained/messages/count"
+    name: Messages retained count
+  - platform: mqtt
+    state_topic: "$SYS/broker/messages/stored"
+    name: Messages stored
+#bytes
+  - platform: mqtt
+    state_topic: "$SYS/broker/bytes/sent"
+    name: Bytes sent    
+  - platform: mqtt
+    state_topic: "$SYS/broker/bytes/received"
+    name: Bytes received 

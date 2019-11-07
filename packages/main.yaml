@@ -1,0 +1,163 @@
+homeassistant:
+  customize:
+    zone.home:
+      friendly_name: Wolfgangs und Barbaras Home
+
+#Datum
+    sensor.s_time_date:
+      friendly_name: Datum/Zeit
+   
+
+binary_sensor:
+  - platform: workday
+    name: bs_workday
+    country: DE
+    workdays: [ mon, tue, wed, thu, fri ]
+    province: NW
+      
+sensor:
+  - platform: moon
+    name: Mond
+
+  - platform: template
+    sensors:
+      s_solar_angle:
+        friendly_name: "Sonnenstand"
+        unit_of_measurement: '°'
+        value_template: "{{ '%+.1f'|format(states.sun.sun.attributes.elevation) }}"
+
+  - platform: websocket_api
+
+  - platform: darksky
+    api_key: !secret darksky
+    language: de
+    scan_interval:
+      minutes: 5
+    forecast:
+      - 0
+      - 1
+    monitored_conditions:
+      - summary
+      - icon
+      - temperature
+      - precip_intensity
+      - precip_probability
+      - precip_accumulation
+      - precip_type
+      - apparent_temperature
+      - dew_point
+      - wind_speed
+      - wind_gust
+      - wind_bearing
+      - cloud_cover
+      - humidity
+      - pressure
+      - visibility
+      - ozone
+      - temperature_high
+      - temperature_low
+      - apparent_temperature_high
+      - apparent_temperature_low
+      - precip_intensity_max
+      - uv_index
+      - moon_phase
+      - nearest_storm_distance
+      - nearest_storm_bearing
+      
+      
+      
+  - platform: dwd_weather_warnings
+    name: Unwetter_Warnung
+    region_name: Rhein-Kreis Neuss    
+
+
+  - platform: template
+    sensors:
+      s_day_night:
+        value_template: >-
+          {% if is_state('sun.sun', 'above_horizon') %}
+            Tag
+          {% else %}
+            Nacht
+          {% endif %}
+
+  - platform: mqtt
+    state_topic: "voicepanel/sensor/battery"
+    name: "Küche Panel Battery Level"
+    unit_of_measurement: "%"
+    value_template: '{{ value_json.value }}'
+    
+  - platform: mqtt
+    state_topic: "voicepanel/sensor/temperature"
+    name: "Küche Panel Temperature"
+    unit_of_measurement: "°C"
+    value_template: '{{ value_json.value }}'
+
+  - platform: mqtt
+    state_topic: "voicepanel/sensor/light"
+    name: "Küche Panel Light Level"
+    unit_of_measurement: "lx"
+    value_template: '{{ value_json.value }}'
+    
+  - platform: mqtt
+    state_topic: "voicepanel/sensor/magneticField"
+    name: "Küche Panel Magnetic Field"
+    unit_of_measurement: "uT"
+    value_template: '{{ value_json.value }}'
+
+
+
+automation:
+  - alias: Workday An
+    trigger:
+      platform: state
+      entity_id: binary_sensor.bs_workday
+      from: 'off'
+      to: 'on'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: "homeassistant/tele/Workday"
+          payload: 'ON'
+          qos: 2
+          retain: true
+
+  - alias: Workday Aus
+    trigger:
+      platform: state
+      entity_id: binary_sensor.bs_workday
+      from: 'on'
+      to: 'off'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: "homeassistant/tele/Workday"
+          payload: 'OFF'
+          qos: 2
+          retain: true   
+
+  - id: '1538595661244'
+    alias: MQTT Weather
+    trigger:
+    - minutes: '/15'
+      platform: time_pattern
+    condition: []
+    action:
+    - data:
+        payload_template: "{'weather':{'summary':'{{states('sensor.dark_sky_summary')}}','precipitation':'{{states('sensor.dark_sky_precip_probability')}}','icon':'{{states('sensor.dark_sky_icon')}}','temperature':'{{states('sensor.dark_sky_apparent_temperature')}}','units':'{{states.sensor.dark_sky_apparent_temperature.attributes.unit_of_measurement}}'}}"
+        topic: voicepanel/command
+        retain: true
+      service: mqtt.publish    
+
+  - id: '1539017708085'
+    alias: MQTT Sun
+    trigger:
+    - minutes: '/5'
+      platform: time_pattern
+    condition: []
+    action:
+    - data:
+        payload_template: "{'sun':'{{states('sun.sun')}}'}"
+        retain: true
+        topic: voicepanel/command
+      service: mqtt.publish    

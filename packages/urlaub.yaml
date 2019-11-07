@@ -1,0 +1,11 @@
+﻿
+switch:
+  - platform: mqtt
+    name: Urlaub
+    state_topic: "nodered/urlaub"
+    command_topic: "nodered/urlaub"
+    qos: 2
+    retain: true
+    
+
+ 

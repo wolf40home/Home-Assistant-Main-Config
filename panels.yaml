@@ -1,0 +1,23 @@
+  nodered:
+    title: Node-RED
+    icon: mdi:sitemap
+    url: http://nuc:1880
+    
+  sensor:
+    title: Sensoren
+    icon: mdi:sitemap
+    url: http://nuc:1880/ui/#!/1#%2F0
+
+  sonoff:
+    title: SonOff
+    icon: mdi:sitemap
+    url: http://nuc:1880/ui/#!/3#%2F0
+
+  glance:
+    title: Glances
+    icon: mdi:sitemap
+    url: http://nuc:9010/glances.html
+  zwa:
+    title: Zwave
+    icon: mdi:sitemap
+    url: http://nuc:1880/ui/#!/4#%2F0

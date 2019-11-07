@@ -1,0 +1,203 @@
+
+homeassistant:
+
+  #-------------------------------------------
+#  auth_providers:
+#   - type: legacy_api_password
+#     api_password: !secret http_password
+  #-------------------------------------------
+  packages: !include_dir_named packages
+#  customize: !include customize.yaml
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+
+# HTTP Server Config
+#-------------------------------------------
+http:
+#  api_password: !secret http_password
+#  ssl_certificate: /home/homeassistant/.homeassistant/certificate.pem
+#  ssl_key: /home/homeassistant/.homeassistant/privkey.pem
+
+  # Secrets are defined in the file secrets.yaml
+  # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+  # base_url: example.duckdns.org:8123
+
+# Panel settings
+#-------------------------------------------
+panel_iframe: !include panels.yaml
+
+automation: !include automations.yaml
+config:
+
+google:
+  client_id: !secret google_client_id
+  client_secret: !secret google_client_secret
+  
+# Frontend Settings
+#-------------------------------------------
+frontend:
+#  javascript_version: latest
+  themes: !include_dir_merge_named themes
+  
+#-------------------------------------------
+# History support
+#-------------------------------------------
+history: !include history.yaml
+
+# Logbook Settings
+#-------------------------------------------
+logbook: !include logbook.yaml
+
+# Recorder Settings
+#-------------------------------------------
+recorder:  !include recorder.yaml
+#-------------------------------------------
+
+       
+fibaro:
+  gateways:
+    - url: http://10.10.0.12/api/
+      username:  !secret fibaro_user
+      password: !secret fibaro_pw
+      
+      
+# Enables a map showing the location of tracked devices
+#-------------------------------------------
+map:
+
+person:
+
+ssdp:
+
+# Track the sun
+#-------------------------------------------
+sun:
+
+#-------------------------------------------
+system_health:
+
+# Checks for available updates
+#-------------------------------------------
+updater:
+  reporting: False
+  # Optional, allows Home Assistant developers to focus on popular components.
+#  include_used_components: true
+
+
+# Text to speech
+#tts:
+ # - platform: google_translate
+
+group: !include groups.yaml
+
+script: !include scripts.yaml
+
+# Wlan Asus
+asuswrt:
+  host: 10.10.0.7
+  mode: ap
+  username: !secret fritz_user
+  password: !secret normal_password
+
+# Dns Server
+pi_hole:
+  host: 10.10.0.18
+  location: admin
+  ssl: false
+  verify_ssl: false
+ 
+
+#MQTT
+#-------------------------------------------
+mqtt:
+  broker: 10.10.0.14
+  port: 1883
+  client_id: home-assistant-n
+  keepalive: 60
+  username: !secret mqtt_user
+  password: !secret mqtt_pwr
+
+#  certificate: /config/ca.crt
+  birth_message:
+    topic: 'hass/status'
+    payload: "online"
+    qos: 1
+    retain: true
+  will_message:
+    topic: 'hass/status'
+    payload: "offline"
+    qos: 1
+    retain: true 
+  discovery: true
+  discovery_prefix: homeassistant
+  
+remote_homeassistant:
+  instances:
+  - host: 10.10.0.4
+#    verify_ssl: false
+    access_token: !secret access_token
+#    include:
+#      domains: 
+#      - zwave
+    subscribe_events:
+    - zwave.network_ready
+    - zwave.node_event
+
+    
+system_log:
+  max_entries: 500
+#-------------------------------------------
+
+
+# Tracer support
+#-------------------------------------------
+device_tracker: !include device_tracker.yaml
+
+# Browser
+#-------------------------------------------
+browser:
+#-------------------------------------------
+
+weather:
+  - platform: openweathermap
+    api_key: !secret openweathermap
+
+#-------------------------------------------
+
+# Discovery suche im Netzwerk
+#-------------------------------------------
+discovery:
+  ignore:
+    - igd
+  enable:
+    - dlna_dmr
+#-------------------------------------------
+
+# Zeroconf
+#-------------------------------------------
+zeroconf:
+
+# Camera support
+#-------------------------------------------
+camera: !include camera.yaml
+
+ffmpeg:
+
+notify:
+    
+  - name: wolfhome
+    platform: group
+    services:
+      - service: wolfgang
+      - service: barbara
+
+  - name: wolfgang
+    platform: file
+    filename: /config/wolfgang.txt
+  - name: barbara
+    platform: file
+    filename: /config/barbara.txt
+    
+#-------------------------------------------
+#alarm_control_panel:
+#  - platform: manual
+alert: !include alert.yaml

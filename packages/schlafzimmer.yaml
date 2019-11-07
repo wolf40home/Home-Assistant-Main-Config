@@ -1,0 +1,231 @@
+sensor:
+    
+  - platform: mqtt
+    name: "Schlafzimmer Temperatur"
+    state_topic: tsensorschlaf/Sensor/Temperature
+    unit_of_measurement: '°C'
+    device_class: temperature
+    
+  - platform: mqtt
+    name: "Schlafzimmer Feuchte"
+    state_topic: tsensorschlaf/Sensor/Humidity
+    unit_of_measurement: '%'
+    device_class: humidity
+
+  - platform: mqtt
+    name: "Schlafzimmer Druck"
+    state_topic: tsensorschlaf/Sensor/Pressure
+    unit_of_measurement: 'hPa'
+    device_class: pressure
+timer:
+  window_1_up:
+    name: Timer Schlafzimmer Auf
+    duration: '00:00:20'
+  window_1_down:
+    name: Timer Schlafzimmer Zu
+    duration: '00:00:20'
+    
+input_number:
+  window_1_position:
+    name: "Window Position"
+    min: 0
+    max: 100
+  window_1_set_position:
+    name: "Window Set Position"
+    min: 0
+    max: 100
+
+cover:
+  - platform: template
+    covers:
+      window_1_cover:
+        friendly_name: "Rollladen Schlafzimmer"
+        position_template: "{{ (states.input_number.window_1_position.state | int) }}"
+        open_cover:
+          - service: mqtt.publish
+            data:
+              topic: 'dualschlaf/cmnd/power2'
+              payload: 'OFF'
+          - service: mqtt.publish
+            data:
+              topic: 'dualschlaf/cmnd/power1'
+              payload: 'ON'
+        close_cover:
+          - service: mqtt.publish
+            data:
+              topic: 'dualschlaf/cmnd/power1'
+              payload: 'OFF'
+          - service: mqtt.publish
+            data:
+              topic: 'dualschlaf/cmnd/power2'
+              payload: 'ON'
+        stop_cover:
+          - service: mqtt.publish
+            data:
+              topic: 'dualschlaf/cmnd/power1'
+              payload: 'OFF'
+          - service: mqtt.publish
+            data:
+              topic: 'dualschlaf/cmnd/power2'
+              payload: 'OFF'     
+automation:
+
+- id: '301'
+  alias: window_1 - MQTT Button1 OFF (up)
+  trigger:
+  - payload: 'OFF'
+    platform: mqtt
+    topic: dualschlaf/stat/POWER1
+  action:
+  - service: timer.cancel
+    entity_id: timer.window_1_up
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.window_1_set_position
+      value: >-
+          {{ states.input_number.window_1_position.state }}
+- id: '302'
+  alias: window_1 - MQTT Button2 OFF (down)
+  trigger:
+  - payload: 'OFF'
+    platform: mqtt
+    topic: dualschlaf/stat/POWER2
+  action:
+  - service: timer.cancel
+    entity_id: timer.window_1_down
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.window_1_set_position
+      value: >-
+          {{ states.input_number.window_1_position.state }}
+- id: '303'
+  alias: window_1 - Timer stopped
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.window_1_up
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.window_1_down
+  action:
+  - service: cover.stop_cover
+    data:
+      entity_id: cover.window_1_cover
+- id: '311'
+  alias: window_1 - MQTT Button1 ON (up)
+  trigger:
+  - payload: 'ON'
+    platform: mqtt
+    topic: dualschlaf/stat/POWER1
+  condition:
+    condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.input_number.window_1_set_position.last_updated) > 3 }}'
+  action:
+  - service: timer.start
+    data:
+      duration: 00:00:16
+    entity_id: timer.window_1_up
+- id: '312'
+  alias: window_1 - MQTT Button2 ON (down)
+  trigger:
+  - payload: 'ON'
+    platform: mqtt
+    topic: dualschlaf/stat/POWER2
+  condition:
+    condition: template
+    value_template: '{{ as_timestamp(now()) - as_timestamp(states.input_number.window_1_set_position.last_updated) > 3 }}'
+  action:
+  - service: timer.start
+    data:
+      duration: 00:00:16
+    entity_id: timer.window_1_down
+- id: '411'
+  alias: window_1 - Position UP
+  trigger:
+    platform: time_pattern
+    seconds: '/1'
+  condition:
+    condition: state
+    entity_id: timer.window_1_up
+    state: active
+  action:
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.window_1_position
+      value: >-
+          {% set step=100/16 %}
+          {% if (states.input_number.window_1_position.state | float + step) < 100 %}
+            {{ states.input_number.window_1_position.state | float + step | int }}
+          {% else %}
+            100
+          {% endif %}
+- id: '412'
+  alias: window_1 - Position Down
+  trigger:
+    platform: time_pattern
+    seconds: '/1'
+  condition:
+    condition: state
+    entity_id: timer.window_1_down
+    state: active
+  action:
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.window_1_position
+      value: >-
+          {% set step=100/16 %}
+          {% if (states.input_number.window_1_position.state | float - step) > 0 %}
+            {{ states.input_number.window_1_position.state | float - step | int}}
+          {% else %}
+            0
+          {% endif %}
+- id: '511'
+  alias: window_1 - Set Position Down
+  trigger:
+    platform: state
+    entity_id: input_number.window_1_set_position
+  condition:
+    condition: template
+    value_template: >-
+        {{ (states.input_number.window_1_position.state | int) >
+           (states.input_number.window_1_set_position.state | int) }}
+  action:
+  - service: timer.start
+    data_template:
+      entity_id: timer.window_1_down
+      duration: >-
+          {{ '00:00:%02d' | format(((
+              (states.input_number.window_1_position.state | int) - 
+              (states.input_number.window_1_set_position.state | int)
+             ) * 16 /100) | int | abs )
+          }}
+  - service: cover.close_cover
+    data:
+      entity_id: cover.window_1_cover
+- id: '512'
+  alias: Window_1 - Set Position UP
+  trigger:
+    platform: state
+    entity_id: input_number.window_1_set_position
+  condition:
+    condition: template
+    value_template: >-
+        {{ (states.input_number.window_1_position.state | int) <
+           (states.input_number.window_1_set_position.state | int) }}
+  action:
+  - service: timer.start
+    data_template:
+      entity_id: timer.window_1_up
+      duration: >-
+          {{ '00:00:%02d' | format(((
+              (states.input_number.window_1_position.state | int) - 
+              (states.input_number.window_1_set_position.state | int)
+             ) * 16 /100) | int | abs )
+          }}
+  - service: cover.open_cover
+    data:
+      entity_id: cover.window_1_cover
+
+

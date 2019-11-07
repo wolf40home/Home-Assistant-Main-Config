@@ -1,0 +1,129 @@
+
+sensor:
+  - platform: mqtt
+    name: "Küche Temperatur"
+    state_topic: rschalter/Sensor/Temperature
+    unit_of_measurement: '°C'
+    device_class: temperature
+    
+  - platform: mqtt
+    name: "Küche Feuchte"
+    state_topic: rschalter/Sensor/Humidity
+    unit_of_measurement: '%'
+    device_class: humidity
+
+  - platform: mqtt
+    name: "Küche Druck"
+    state_topic: rschalter/Sensor/Pressure
+    unit_of_measurement: 'hPa'
+    device_class: pressure
+    
+  - platform: mqtt
+    state_topic: "kuechepanel/sensor/battery"
+    name: "Voice Panel Battery Level"
+    unit_of_measurement: "%"
+    value_template: '{{ value_json.value }}'
+    
+  - platform: mqtt
+    state_topic: "kuechepanel/sensor/temperature"
+    name: "Voice Panel Temperature"
+    unit_of_measurement: "°C"
+    value_template: '{{ value_json.value }}'
+
+  - platform: mqtt
+    state_topic: "kuechepanel/sensor/light"
+    name: "Voice Panel Light Level"
+    unit_of_measurement: "lx"
+    value_template: '{{ value_json.value }}'
+    
+  - platform: mqtt
+    state_topic: "kuechepanel/sensor/magneticField"
+    name: "Voice Panel Magnetic Field"
+    unit_of_measurement: "uT"
+    value_template: '{{ value_json.value }}'
+    
+    
+binary_sensor:
+
+
+  - platform: mqtt
+    name: "Kuechentuer Kontakt"
+    state_topic: 'nodered/alarmkontakte/Kuechentuer'
+    device_class: door
+
+  - platform: mqtt
+    name: "Kuechenfenster Kontakt"
+    state_topic: 'nodered/alarmkontakte/FensterKueche'
+    device_class: window
+   
+media_player:
+
+  - platform: kodi
+    name: Kueche Kodi
+    host: amazon-cdea109b9.fritz.box
+
+
+          
+input_number:
+
+  in_mpd_kueche:
+    name: Küchelautstärke
+    mode: slider
+    min: 0
+    max: 1
+    step: 0.05
+
+  in_temp_kueche:
+    name: Küchentemperatur
+    mode: slider
+    min: 18
+    max: 24
+    step: 0.5
+
+automation:
+
+
+  - alias: Lautstaerke - Kueche
+    trigger:
+      platform: state
+      entity_id: input_number.in_mpd_kueche
+    condition:
+      condition: state
+      entity_id: media_player.pi_media_mpd
+      state: 'playing'
+    action:
+      - service: media_player.volume_set
+        # Note the use of 'data_template:' below rather than the normal 'data:' if you weren't using an input variable
+        data_template:
+          entity_id: media_player.snapcast_client_7cdd90001fed_2
+          volume_level: '{{ trigger.to_state.state }}'
+      - service: script.notify_mqtt
+        data:
+          message: "*Radio Küche* \n Lautstaerke geaendert"
+  - id: '1538595661244'
+    alias: MQTT Weather
+    trigger:
+    - minutes: '/15'
+      platform: time_pattern
+    condition: []
+    action:
+    - data:
+        payload_template: "{'weather':{'summary':'{{states('sensor.dark_sky_summary')}}','precipitation':'{{states('sensor.dark_sky_precip_probability')}}','icon':'{{states('sensor.dark_sky_icon')}}','temperature':'{{states('sensor.dark_sky_apparent_temperature')}}','units':'{{states.sensor.dark_sky_apparent_temperature.attributes.unit_of_measurement}}'}}"
+        topic: kuechepanel/command
+        retain: true
+      service: mqtt.publish    
+
+  - id: '1539017708085'
+    alias: MQTT Sun
+    trigger:
+    - minutes: '/5'
+      platform: time_pattern
+    condition: []
+    action:
+    - data:
+        payload_template: "{'sun':'{{states('sun.sun')}}'}"
+        retain: true
+        topic: kuechepanel/command
+      service: mqtt.publish    
+
+

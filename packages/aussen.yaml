@@ -1,0 +1,43 @@
+binary_sensor:
+  - platform: template
+    sensors:
+      bs_sun_up:
+        friendly_name: "es ist hell"
+        value_template: >-
+          {{ states.sun.sun.attributes.elevation|float > 0 }}
+
+
+sensor:
+
+  - platform: mqtt
+    name:  aussen Temperatur
+    state_topic: "tele/rf434/tcm/245"
+    unit_of_measurement: "°C"
+    value_template:  "{{(value_json.temperature| float )| round(1)}}"  
+ 
+  - platform: mqtt
+    name:  aussen Feuchte
+    state_topic: "tele/rf434/tcm/245"
+    unit_of_measurement: "%"
+    value_template:  "{{(value_json.humidity| float )| round(1)}}" 
+
+  - platform: min_max
+    name: LA Luminance
+    type: min
+    entity_ids:
+      - sensor.eingang_strahler_luminance
+      - sensor.hinten_strahler_luminance
+      - sensor.vorne_strahler_luminance
+      
+
+    
+  - platform: mqtt
+    name: "Luft Nievenheim PM10"
+    state_topic: nodered/Luftdaten/Sensor/PM10
+    json_attributes_topic: nodered/Luftdaten/Sensor/attributesPM10
+    
+  - platform: mqtt
+    name: "Luft Nievenheim PM2.5"
+    state_topic: nodered/Luftdaten/Sensor/PM2.5   
+    json_attributes_topic: nodered/Luftdaten/Sensor/attributesPM2.5
+    
