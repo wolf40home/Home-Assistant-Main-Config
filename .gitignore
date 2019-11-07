@@ -1,12 +1,15 @@
 *
 !*.yaml
+!README.md
 !custom_components
 !packages
 !themes
 !www
+!www/**
 !.gitignore
 secrets.yaml
 known_devices.yaml
 !varible.py
 /google_calendars.yaml
 
+Thumbs.db
