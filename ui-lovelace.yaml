@@ -1,0 +1,1965 @@
+resources:
+- type: module
+  url: /community_plugin/lovelace-card-tools/card-tools.js
+- type: js
+  url: /local/theme-maker.js
+- type: module
+  url: /community_plugin/lovelace-fold-entity-row/fold-entity-row.js
+- type: js
+  url: /community_plugin/lovelace-slider-entity-row/slider-entity-row.js
+- type: module
+  url: /community_plugin/simple-thermostat/simple-thermostat.js
+- type: module
+  url: /community_plugin/monster-card/monster-card.js
+- type: module
+  url: /community_plugin/mini-graph-card/mini-graph-card-bundle.js
+- type: module
+  url: /community_plugin/zigbee2mqtt-networkmap/zigbee2mqtt-networkmap.js
+- type: module
+  url: /community_plugin/atomic_calendar/atomic_calendar.js
+- type: module
+  url: /community_plugin/surveillance-card/surveillance-card.js
+- type: module
+  url: /community_plugin/entity-attributes-card/entity-attributes-card.js
+title: Home
+views:
+- badges: []
+  cards:
+  - entities:
+    - entity: sun.sun
+    - entity: sensor.mond
+    - entity: sensor.licht_aquarium_bme280_pressure
+    - entity: sensor.node_red_neue_version
+    - entity: sensor.installed_version
+    - entity: sensor.current_version
+    - entity: switch.urlaub
+    show_header_toggle: false
+    title: Informationen
+    type: entities
+  - entity: weather.openweathermap
+    type: weather-forecast
+  - entities:
+    - sensor.dark_sky_wind_speed
+    - sensor.dark_sky_temperature
+    - sensor.dark_sky_dew_point
+    - sensor.dark_sky_pressure
+    - sensor.dark_sky_humidity
+    hours_to_show: 240
+    name: Wetter
+    refresh: 60
+    type: history-graph
+  - entities:
+    - binary_sensor.bs_play_mpd
+    - sensor.mpd_title
+    - sensor.mpd_sender
+    - switch.rsh
+    - switch.einslive
+    - input_number.in_mpd_volume
+    - input_number.in_mpd_kueche
+    - input_number.in_mpd_wohn
+    show_header_toggle: false
+    title: Radio
+    type: entities
+  - dateColor: black
+    dateSize: 90
+    dayWrapperLineColor: black
+    dimFinishedEvents: true
+    entities:
+    - entity: calendar.fasanenweg_dormagen_straberg_mein_abfallkalender_de
+    eventBarColor: blue
+    finishedEventFilter: grayscale(100%)
+    finishedEventOpacity: 0.6
+    fullDayEventText: All day
+    locationIconColor: rgb(230, 124, 115)
+    locationLinkColor: black
+    locationTextSize: 90
+    maxDaysToShow: 7
+    progressBarColor: blue
+    showColors: true
+    showCurrentEventLine: false
+    showLocation: true
+    showMonth: false
+    showProgressBar: true
+    timeColor: blue
+    timeSize: 90
+    title: Calendar
+    titleColor: black
+    titleSize: 100
+    type: custom:atomic-calendar
+    untilText: Until
+  - entity: media_player.nuc_mpd
+    type: media-control
+  - entities:
+    - entity: sensor.dark_sky_icon
+    - entity: sensor.dark_sky_humidity
+    - entity: sensor.dark_sky_temperature
+    - entity: sensor.dark_sky_dew_point
+    - entity: sensor.dark_sky_apparent_temperature
+    - entity: sensor.dark_sky_pressure
+    - entity: sensor.dark_sky_wind_speed
+    - entity: sensor.dark_sky_wind_gust
+    - entity: sensor.dark_sky_wind_bearing
+    - entity: sensor.dark_sky_cloud_coverage
+    - entity: sensor.dark_sky_cloud_coverage_0d
+    - entity: sensor.dark_sky_cloud_coverage_1d
+    - entity: sensor.dark_sky_visibility
+    - entity: sensor.dark_sky_uv_index
+    show_header_toggle: false
+    title: Wetterbericht
+    type: entities
+  - entities:
+    - input_select.theme_select
+    show_header_toggle: false
+    title: Auswahlfeld
+    type: entities
+  - card:
+      show_header_toggle: false
+      title: Fehlen
+      type: entities
+    filter:
+      include:
+      - domain: device_tracker
+        state: not_home
+    type: custom:monster-card
+  icon: mdi:home
+  path: default_view
+  title: default_view
+- badges: []
+  cards:
+  - entities:
+    - entity: device_tracker.cam1
+    - entity: device_tracker.cam2
+    - entity: device_tracker.lled
+    show_header_toggle: false
+    title: Tracker
+    type: entities
+  - entities:
+    - sensor.dark_sky_temperature
+    hours_to_show: 240
+    name: Temperatur
+    points_per_hour: 0.25
+    show:
+      extrema: true
+      labels: true
+    type: custom:mini-graph-card
+  - entities:
+    - sensor.dark_sky_humidity
+    hours_to_show: 168
+    name: Feuchte
+    points_per_hour: 0.25
+    show:
+      extrema: true
+      labels: true
+    type: custom:mini-graph-card
+  - entities:
+    - sensor.dark_sky_pressure
+    hours_to_show: 168
+    name: Luftdruck
+    points_per_hour: 0.25
+    show:
+      extrema: true
+      labels: true
+    type: custom:mini-graph-card
+  - cards:
+    - cards:
+      - entity: light.lled
+        hold_action:
+          action: none
+        tap_action:
+          action: toggle
+        type: entity-button
+      - entity: switch.pool_pumpe_switch
+        hold_action:
+          action: none
+        tap_action:
+          action: toggle
+        type: entity-button
+      title: Licht
+      type: horizontal-stack
+    - cards:
+      - entity: light.aussen_led_light
+        theme: amoled
+        type: light
+      - entity: light.led_aussen_rasen
+        hold_action:
+          action: none
+        tap_action:
+          action: toggle
+        type: entity-button
+      type: horizontal-stack
+    - entities:
+      - device_tracker.lled2
+      - sensor.led_aussen_rasen_status
+      - sensor.aussen_led_linkquality
+      - icon: mdi:security-network
+        name: Led2
+        type: weblink
+        url: http://lled2.steiner.net
+      - device_tracker.lled
+      - sensor.lled_status
+      - icon: mdi:security-network
+        name: Led
+        type: weblink
+        url: http://lled2.steiner.net
+      - light.aussen_led_light
+      - entity: light.aussen_led_light
+        type: custom:slider-entity-row
+      show_header_toggle: false
+      type: entities
+    type: vertical-stack
+  - entities:
+    - entity: sensor.luft_nievenheim_pm10
+    - entity: sensor.luft_nievenheim_pm2_5
+    show_header_toggle: false
+    title: Luftdaten Nievenheim
+    type: entities
+  - cards:
+    - entities:
+      - device_tracker.hauto
+      - sensor.autoheizung_status
+      - icon: mdi:security-network
+        name: Link
+        type: weblink
+        url: http://hauto.steiner.net
+      type: entities
+    - entity: switch.autoheizung
+      hold_action:
+        action: none
+      tap_action:
+        action: toggle
+      type: entity-button
+    title: Autoheizung
+    type: horizontal-stack
+  - entities:
+    - entity: sensor.la_luminance
+    - entity: switch.strahler_eingang_switch
+    - entity: sensor.eingang_strahler_luminance
+    - entity: sensor.eingang_strahler_burglar_1
+    - entity: zwave.eingang_strahler
+    - entity: switch.strahler_vorne_switch
+    - entity: sensor.vorne_strahler_luminance
+    - entity: sensor.vorne_strahler_burglar_1
+    - entity: zwave.vorne_strahler
+    - entity: switch.hinten_strahler_switch
+    - entity: sensor.hinten_strahler_luminance
+    - entity: sensor.hinten_strahler_burglar_1
+    - entity: zwave.hinten_strahler
+    show_header_toggle: false
+    title: Strahler Aussen
+    type: entities
+  - entities:
+    - sensor.luft_nievenheim_pm10
+    - sensor.luft_nievenheim_pm2_5
+    hours_to_show: 240
+    name: Luft
+    points_per_hour: 0.25
+    show:
+      extrema: true
+      labels: true
+    type: custom:mini-graph-card
+  - entities:
+    - sensor.eingang_strahler_luminance
+    - sensor.hinten_strahler_luminance
+    - sensor.vorne_strahler_luminance
+    hours_to_show: 168
+    name: Luminance
+    points_per_hour: 0.25
+    show:
+      extrema: true
+      labels: true
+    type: custom:mini-graph-card
+  icon: mdi:nature
+  path: g_aussen
+  title: Aussen
+- badges: []
+  cards:
+  - entities:
+    - entity: device_tracker.hauto
+    - entity: device_tracker.lgarage
+    - entity: device_tracker.pgarage
+    show_header_toggle: false
+    title: Tracker
+    type: entities
+  - cards:
+    - entities:
+      - entity: sensor.licht_garage_htu21_temperature
+        line_color_above:
+        - color: yellow
+          value: 17
+        - color: orange
+          value: 20
+        - color: red
+          value: 22
+      hours_to_show: 240
+      name: Temperatur
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.licht_garage_htu21_humidity
+      hours_to_show: 240
+      name: Feuchte
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.radio_schalter_kuche_bme280_pre
+      hours_to_show: 240
+      name: Druck
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    type: vertical-stack
+  - cards:
+    - entities:
+      - sensor.brunnen_power_energy_power
+      hours_to_show: 240
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - cards:
+      - entities:
+        - device_tracker.pgarage
+        - sensor.brunnen_power_status
+        - icon: mdi:security-network
+          name: Link
+          type: weblink
+          url: http://pgarage.steiner.net
+        type: entities
+      - entity: switch.brunnen_power
+        hold_action:
+          action: none
+        tap_action:
+          action: toggle
+        type: entity-button
+      title: Switches
+      type: horizontal-stack
+    - entities:
+      - head: sensor.brunnen_power_energy_total
+        items:
+        - sensor.brunnen_power_energy_voltage
+        - sensor.brunnen_power_energy_current
+        - sensor.brunnen_power_energy_factor
+        - sensor.brunnen_power_energy_today
+        - sensor.brunnen_power_energy_apparentpower
+        - sensor.brunnen_power_energy_reactivepower
+        - sensor.brunnen_power_energy_total
+        - sensor.brunnen_power_energy_totalstarttime
+        - sensor.brunnen_power_energy_yesterday
+        type: custom:fold-entity-row
+      show_header_toggle: false
+      type: entities
+    type: vertical-stack
+  - cards:
+    - entities:
+      - device_tracker.lgarage
+      - sensor.licht_garage_status
+      - icon: mdi:security-network
+        name: Link
+        type: weblink
+        url: http://LGarage.steiner.net
+      type: entities
+    - entity: light.licht_garage
+      hold_action:
+        action: none
+      tap_action:
+        action: toggle
+      type: entity-button
+    title: Switches
+    type: horizontal-stack
+  - cards:
+    - entities:
+      - device_tracker.hauto
+      - sensor.autoheizung_status
+      - icon: mdi:security-network
+        name: Link
+        type: weblink
+        url: http://hauto.steiner.net
+      type: entities
+    - entity: switch.autoheizung
+      hold_action:
+        action: none
+      tap_action:
+        action: toggle
+      type: entity-button
+    title: Switches
+    type: horizontal-stack
+  - entities:
+    - entity: sensor.brunnen_power_energy_current
+    - entity: sensor.brunnen_power_energy_factor
+    - entity: sensor.brunnen_power_energy_power
+    type: entities
+  icon: mdi:garage
+  path: g_garage
+  title: Garage
+- badges: []
+  cards:
+  - elements:
+    - entity: sensor.gast_temperatur
+      style:
+        left: 90%
+        top: 10%
+      type: state-label
+    - entity: sensor.gast_feuchte
+      style:
+        left: 90%
+        top: 15%
+      type: state-label
+    - entity: sensor.heizen_flur_temperature
+      style:
+        left: 52%
+        top: 60%
+      type: state-label
+    - entity: sensor.waschkuche_temperatur
+      style:
+        left: 15%
+        top: 90%
+      type: state-label
+    - entity: sensor.waschkuche_feuchte
+      style:
+        left: 15%
+        top: 95%
+      type: state-label
+    image: /local/Keller.jpg
+    type: picture-elements
+  - entities:
+    - entity: device_tracker.wlankeller
+    - entity: device_tracker.swkeller
+    - entity: device_tracker.nas2
+    - entity: device_tracker.nas3
+    - entity: device_tracker.rschalter1
+    - entity: device_tracker.pi_radio
+    - entity: device_tracker.dm7020
+    show_header_toggle: false
+    title: Keller Tracker
+    type: entities
+  - cards:
+    - entities:
+      - entity: sensor.gast_temperatur
+      - entity: sensor.waschkuche_temperatur
+      hours_to_show: 240
+      name: Temperatur
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.gast_feuchte
+      - entity: sensor.waschkuche_feuchte
+      hours_to_show: 240
+      name: Feuchte
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.waschkuche_druck
+      hours_to_show: 240
+      name: Druck
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - device_tracker.rschalter1
+      type: entities
+    type: vertical-stack
+  - entities:
+    - entity: binary_sensor.kellerfenster_kontakt
+    - entity: binary_sensor.kellerfenster_kontakt_batt
+    - entity: binary_sensor.kellerfenster_kontakt_l
+    - entity: binary_sensor.kellerfenster_kontakt_l_batt
+    - entity: binary_sensor.kellerfenster_kontakt_r
+    - entity: binary_sensor.kellerfenster_kontakt_r_batt
+    show_header_toggle: false
+    title: Keller Sensor
+    type: entities
+  - cards:
+    - entities:
+      - device_tracker.lkellerflur
+      - input_number.in_lkellerflur
+      - icon: mdi:security-network
+        name: Link
+        type: weblink
+        url: http://LKellerFlur.fritz.box
+      type: entities
+    - entity: light.licht_keller_flur
+      hold_action:
+        action: none
+      tap_action:
+        action: toggle
+      type: entity-button
+    title: Switches
+    type: horizontal-stack
+  - entities:
+    - icon: mdi:security-network
+      name: Nas3 Web
+      type: weblink
+      url: http://nas3.steiner.net:5000
+    - switch.nas3_wake
+    - sensor.synology_dsm_network_down
+    - sensor.synology_dsm_network_up
+    - sensor.synology_dsm_temperature_sda
+    - sensor.synology_dsm_maximum_disk_temp_volume_1
+    - sensor.synology_dsm_volume_used_volume_1
+    - sensor.synology_dsm_temperature_sdb
+    - sensor.synology_dsm_maximum_disk_temp_volume_2
+    - sensor.synology_dsm_volume_used_volume_2
+    - sensor.synology_dsm_status_sda
+    - sensor.synology_dsm_status_sdb
+    - sensor.synology_dsm_status_smart_sda
+    - sensor.synology_dsm_status_smart_sdb
+    show_header_toggle: false
+    title: Nas 3
+    type: entities
+  - entities:
+    - icon: mdi:security-network
+      name: Nas2 Web
+      type: weblink
+      url: http://nas2.steiner.net:8080
+    - switch.nas2_wake
+    - sensor.nas2_cpu_usage
+    - sensor.nas2_memory_usage
+    - sensor.nas2_network_up_eth0
+    - sensor.nas2_network_down_eth0
+    - sensor.nas2_status
+    - sensor.nas2_volume_used_volume_1
+    - sensor.nas2_smart_status_drive_1
+    - sensor.nas2_volume_used_volume_2
+    - sensor.nas2_smart_status_drive_2
+    show_header_toggle: false
+    title: Nas 2
+    type: entities
+  - cards:
+    - entities:
+      - device_tracker.rschalter1
+      - sensor.radio_schalter_keller_status
+      - media_player.snapcast_client_b8_27_eb_c6_69_c2
+      - media_player.snapcast_group_97d690f4_7852_027a_f988_9ac0d1e68798
+      - icon: mdi:security-network
+        name: Link
+        type: weblink
+        url: http://rschalter1.steiner.net
+      type: entities
+    - entity: switch.radio_schalter_keller
+      hold_action:
+        action: none
+      tap_action:
+        action: toggle
+      type: entity-button
+    title: Radio Schalter
+    type: horizontal-stack
+  - entity: climate.heizen_flur_heating
+    sensors:
+    - entity: sensor.buro_temperatur
+    step_size: 0.5
+    type: custom:simple-thermostat
+  - entities:
+    - entity: input_number.in_temp_kflur
+    - entity: climate.heizen_flur_heating
+    - entity: sensor.heizen_flur_battery_level
+    - entity: zwave.heizen_flur
+    show_header_toggle: false
+    title: Heizung
+    type: entities
+  - entities:
+    - entity: switch.wlan_switch
+    - entity: sensor.wlan_power
+    - entity: sensor.wlan_energy
+    - entity: sensor.wlan_current
+    - entity: sensor.wlan_voltage
+    - entity: zwave.wlan
+    show_header_toggle: false
+    title: Heizung
+    type: entities
+  icon: mdi:stairs
+  path: g_keller
+  title: Keller
+- badges: []
+  cards:
+  - elements:
+    - entity: sensor.vorrat_temperatur
+      style:
+        left: 65%
+        top: 72%
+      type: state-label
+    - entity: sensor.vorrat_feuchte
+      style:
+        left: 65%
+        top: 75%
+      type: state-label
+    - entity: sensor.kuche_temperatur
+      style:
+        left: 25%
+        top: 70%
+      type: state-label
+    - entity: sensor.kuche_feuchte
+      style:
+        left: 25%
+        top: 74%
+      type: state-label
+    - entity: sensor.wohnzimmer_temperatur
+      style:
+        left: 35%
+        top: 25%
+      type: state-label
+    - entity: sensor.heizen_fenster_temperature
+      style:
+        left: 20%
+        top: 54%
+      type: state-label
+    - entity: sensor.wohnzimmer_heizung_sofa_temperature
+      style:
+        left: 55%
+        top: 22%
+      type: state-label
+    - entity: sensor.wohnzimmer_feuchte
+      style:
+        left: 35%
+        top: 29%
+      type: state-label
+    - entity: sensor.licht_aquarium_bme280_pressure
+      style:
+        left: 35%
+        top: 33%
+      type: state-label
+    - entity: sensor.heizen_treppe_temperature
+      style:
+        left: 50%
+        top: 50%
+      type: state-label
+    - entity: sensor.heizen_eingang_temperature
+      style:
+        left: 48%
+        top: 85%
+      type: state-label
+    - entity: sensor.garage_temperatur
+      style:
+        left: 83%
+        top: 45%
+      type: state-label
+    - entity: sensor.garage_feuchte
+      style:
+        left: 83%
+        top: 49%
+      type: state-label
+    image: /local/unten.jpg
+    type: picture-elements
+  - entities:
+    - entity: device_tracker.lschaltervor
+    - entity: device_tracker.aquarium
+    show_header_toggle: false
+    title: Tracker
+    type: entities
+  - cards:
+    - entities:
+      - device_tracker.lschaltervor
+      - sensor.ladegerat_vorrat_status
+      - icon: mdi:security-network
+        name: Link
+        type: weblink
+        url: http://lschaltervor.steiner.net
+      type: entities
+    - entity: switch.ladegerat_vorrat
+      hold_action:
+        action: none
+      tap_action:
+        action: toggle
+      type: entity-button
+    title: Switches
+    type: horizontal-stack
+  - entity: climate.heizen_treppe_heat
+    sensors:
+    - entity: sensor.vorrat_temperatur
+    - entity: sensor.heizen_eingang_temperature
+    step_size: 1
+    type: custom:simple-thermostat
+  - entity: climate.heizen_eingang_heat
+    sensors:
+    - entity: sensor.vorrat_temperatur
+    - entity: sensor.heizen_treppe_temperature
+    step_size: 1
+    type: custom:simple-thermostat
+  - cards:
+    - entities:
+      - entity: sensor.wohnzimmer_temperatur
+      - entity: sensor.kuche_temperatur
+      - entity: sensor.vorrat_temperatur
+      hours_to_show: 240
+      name: Temperatur
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - sensor.vorrat_feuchte
+      - sensor.kuche_feuchte
+      - sensor.wohnzimmer_feuchte
+      hours_to_show: 240
+      name: Feuchte
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.wohnzimmer_druck
+      - entity: sensor.kuche_druck
+      hours_to_show: 240
+      name: Druck
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - device_tracker.aquarium
+      - device_tracker.lschaltervor
+      type: entities
+    type: vertical-stack
+  - entities:
+    - entity: binary_sensor.haustuer_kontakt
+    - entity: binary_sensor.haustuer_kontakt_batt
+    - entity: binary_sensor.treppenfenster_kontakt
+    - entity: binary_sensor.treppenfenster_kontakt_batt
+    - entity: binary_sensor.wc_fenster_kontakt
+    - entity: binary_sensor.wc_fenster_kontakt_batt
+    - entity: binary_sensor.vorratsfenster_kontakt
+    - entity: binary_sensor.vorratsfenster_kontakt_batt
+    show_header_toggle: false
+    title: Unten Sensor
+    type: entities
+  - entities:
+    - entity: input_number.in_temp_kueche
+    - entity: climate.heizen_kueche_heating
+    - entity: sensor.heizen_kueche_battery_level
+    - entity: zwave.heizen_kueche
+    - entity: input_number.in_temp_flur
+    - entity: climate.heizen_eingang_heat
+    - entity: sensor.heizen_eingang_battery_level
+    - entity: zwave.heizen_eingang
+    - entity: climate.heizen_treppe_heat
+    - entity: sensor.heizen_treppe_battery_level
+    - entity: zwave.heizen_treppe
+    show_header_toggle: false
+    title: Heizung
+    type: entities
+  path: g_unten
+  title: Unten
+- badges: []
+  cards:
+  - entities:
+    - entity: device_tracker.wlankueche
+    - entity: device_tracker.wolfgang_tab
+    - entity: device_tracker.tablet_kueche
+    - entity: device_tracker.pi_radiob3
+    - entity: device_tracker.rschalter
+    - entity: device_tracker.thermomix30c10e
+    - entity: device_tracker.amazoncdea109b9
+    show_header_toggle: false
+    title: "Tracker K\xFCche"
+    type: entities
+  - cards:
+    - entities:
+      - entity: sensor.kuche_temperatur
+        line_color_above:
+        - color: yellow
+          value: 17
+        - color: orange
+          value: 20
+        - color: red
+          value: 22
+      hours_to_show: 240
+      name: Temperatur
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.kuche_feuchte
+      hours_to_show: 240
+      name: Feuchte
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.radio_schalter_kuche_bme280_pre
+      hours_to_show: 240
+      name: Druck
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - device_tracker.rschalter
+      type: entities
+    type: vertical-stack
+  - entities:
+    - entity: binary_sensor.kuechenfenster_kontakt
+    - entity: binary_sensor.kuechenfenster_kontakt_batt
+    - entity: binary_sensor.kuechentuer_kontakt
+    - entity: binary_sensor.kuechentuer_kontakt_batt
+    show_header_toggle: false
+    title: "Sensor K\xFCche"
+    type: entities
+  - entities:
+    - entity: switch.kaffee_switch
+    - entity: sensor.kaffee_power
+    - entity: sensor.kaffee_energy
+    - entity: zwave.kaffee_power
+    show_header_toggle: false
+    title: Kaffee
+    type: entities
+  - entity: climate.heizen_kueche_heating
+    sensors:
+    - entity: sensor.kuche_temperatur
+    step_size: 0.5
+    type: custom:simple-thermostat
+  - entities:
+    - binary_sensor.bs_play_mpd
+    - sensor.mpd_title
+    - sensor.mpd_sender
+    - switch.rsh
+    - switch.einslive
+    - input_number.in_mpd_volume
+    - input_number.in_mpd_kueche
+    - input_number.in_mpd_wohn
+    show_header_toggle: false
+    title: Radio
+    type: entities
+  - cards:
+    - entities:
+      - device_tracker.rschalter
+      - sensor.radio_schalter_kuche_status
+      - media_player.snapcast_client_b8_27_eb_5e_2f_c8
+      - media_player.snapcast_group_eb3dabed_249c_3b2a_f581_9e92bc171f41
+      - icon: mdi:security-network
+        name: Link
+        type: weblink
+        url: http://rschalter.steiner.net
+      type: entities
+    - entity: switch.radio_schalter_kuche
+      hold_action:
+        action: none
+      tap_action:
+        action: toggle
+      type: entity-button
+    title: Radio
+    type: horizontal-stack
+  - entities:
+    - entity: input_number.in_temp_kueche
+    - entity: zwave.heizen_kueche
+    - entity: sensor.heizen_kueche_temperature
+    - entity: sensor.heizen_kueche_battery_level
+    show_header_toggle: false
+    title: Heizung
+    type: entities
+  icon: mdi:food-fork-drink
+  path: g_kueche
+  title: kueche
+- badges: []
+  cards:
+  - entity: media_player.wohnzimmer_fernseher
+    type: media-control
+  - entity: media_player.vusolo4k
+    type: media-control
+  - entities:
+    - entity: device_tracker.pi_dm
+    - entity: device_tracker.win10
+    - entity: device_tracker.ipad
+    - entity: device_tracker.barbarasipad
+    - entity: device_tracker.vusolo4k
+    - entity: device_tracker.tizen
+    - entity: device_tracker.am335x_opt
+    - entity: device_tracker.aquarium
+    - entity: device_tracker.rtac88ua0f8
+    - entity: device_tracker.rfbridge
+    - entity: device_tracker.harmonyhub
+    show_header_toggle: false
+    title: Tracker Wohnzimmer
+    type: entities
+  - cards:
+    - entities:
+      - entity: sensor.wohnzimmer_temperatur
+        line_color_above:
+        - color: yellow
+          value: 17
+        - color: orange
+          value: 20
+        - color: red
+          value: 22
+      - entity: sensor.heizen_fenster_temperature
+      - entity: sensor.wohnzimmer_heizung_sofa_temperature
+      hours_to_show: 240
+      name: Temperatur
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.wohnzimmer_feuchte
+      hours_to_show: 240
+      name: Feuchte
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.wohnzimmer_druck
+      hours_to_show: 240
+      name: Druck
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - device_tracker.aquarium
+      type: entities
+    type: vertical-stack
+  - entity: climate.heizen_fenster_heat
+    sensors:
+    - entity: sensor.wohnzimmer_temperatur
+    - entity: sensor.wohnzimmer_heizung_sofa_temperature
+    step_size: 0.5
+    type: custom:simple-thermostat
+  - entity: climate.wohnzimmer_heizung_sofa_heat
+    sensors:
+    - entity: sensor.wohnzimmer_temperatur
+    - entity: sensor.heizen_fenster_temperature
+    step_size: 0.5
+    type: custom:simple-thermostat
+  - cards:
+    - cards:
+      - entity: light.licht_aquarium
+        hold_action:
+          action: none
+        tap_action:
+          action: toggle
+        type: entity-button
+      - entity: switch.wohnzimmer_aquarium_switch
+        hold_action:
+          action: none
+        tap_action:
+          action: toggle
+        type: entity-button
+      title: Switches
+      type: horizontal-stack
+    - entities:
+      - entity: sensor.wohnzimmer_aquarium_power
+      hours_to_show: 240
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - device_tracker.aquarium
+      - sensor.licht_aquarium_status
+      - icon: mdi:security-network
+        name: Link
+        type: weblink
+        url: http://aquarium.steiner.net
+      - sensor.auto_aquarium_start
+      - sensor.auto_aquarium_stop
+      - head: sensor.wohnzimmer_aquarium_energy
+        items:
+        - zwave.aquarium_power
+        - sensor.wohnzimmer_aquarium_power
+        - input_number.auto_aquarium_offset_on
+        - input_number.auto_light_offset_off
+        type: custom:fold-entity-row
+      show_header_toggle: false
+      type: entities
+    type: vertical-stack
+  - entities:
+    - entity: binary_sensor.wohnzimmerfenster_kontakt
+    - entity: binary_sensor.wohnzimmerfenster_kontakt_batt
+    - entity: binary_sensor.wohnzimmerfenster_kontakt_r
+    - entity: binary_sensor.wohnzimmerfenster_kontakt_r_batt
+    - entity: binary_sensor.wohnzimmerfenster_kontakt_l
+    - entity: binary_sensor.wohnzimmerfenster_kontakt_l_batt
+    - entity: binary_sensor.wohnzimmertuer_kontakt
+    - entity: binary_sensor.wohnzimmertuer_kontakt_batt
+    show_header_toggle: false
+    title: Sensor Wohnzimmer
+    type: entities
+  - entities:
+    - entity: input_number.in_temp_wohnzimmer
+    - entity: sensor.wohnzimmer_heizung_sofa_temperature
+    - entity: sensor.heizen_sofa_battery_level
+    - entity: sensor.heizen_fenster_temperature
+    - entity: sensor.heizen_fenster_battery_level
+    show_header_toggle: false
+    title: Heizung
+    type: entities
+  - entities:
+    - icon: mdi:security-network
+      name: RF Bridge Web
+      type: weblink
+      url: http://rfbridge
+    - sensor.rfbridge_status
+    - sensor.rf_bridge_result
+    - binary_sensor.node_red_lwt
+    show_header_toggle: false
+    title: Gruppe RF Bridge
+    type: entities
+  - entity: media_player.snapcast_client_dc_a6_32_12_9f_01
+    type: media-control
+  - cards:
+    - entities:
+      - icon: mdi:security-network
+        name: Link
+        type: weblink
+        url: http://10.10.0.7
+      - device_tracker.rtac88ua0f8
+      type: entities
+    type: vertical-stack
+  - entity: media_player.wohnzimmer_tuner
+    type: media-control
+  icon: mdi:sofa
+  path: g_wohnzimmer
+  title: Wohnzimmer
+- badges: []
+  cards:
+  - entities:
+    - entity: device_tracker.drucker
+    - entity: device_tracker.dualschlaf
+    - entity: device_tracker.espabd84c
+    - entity: device_tracker.fritzbox
+    - entity: device_tracker.ltreppeoben
+    - entity: device_tracker.pbuero1
+    - entity: device_tracker.pbuero2
+    - entity: device_tracker.pbuero3
+    - entity: device_tracker.pi_dw1
+    - entity: device_tracker.pi_hole
+    - entity: device_tracker.swbuero
+    - entity: device_tracker.wolfgangs_s6
+    - entity: device_tracker.wolfgang_pc
+    show_header_toggle: false
+    title: Tracker
+    type: entities
+  - elements:
+    - entity: sensor.buro_temperatur
+      style:
+        left: 65%
+        top: 32%
+      type: state-label
+    - entity: sensor.buro_feuchte
+      style:
+        left: 65%
+        top: 35%
+      type: state-label
+    - entity: sensor.oben_treppe_temperatur
+      style:
+        left: 85%
+        top: 48%
+      type: state-label
+    - entity: sensor.oben_treppe_feuchte
+      style:
+        left: 85%
+        top: 51%
+      type: state-label
+    - entity: sensor.schlafzimmer_temperatur
+      style:
+        left: 20%
+        top: 29%
+      type: state-label
+    - entity: sensor.schlafzimmer_feuchte
+      style:
+        left: 20%
+        top: 25%
+      type: state-label
+    - entity: sensor.bad_temperatur
+      style:
+        left: 20%
+        top: 80%
+      type: state-label
+    - entity: sensor.bad_feuchte
+      style:
+        left: 20%
+        top: 85%
+      type: state-label
+    image: /local/oben.jpg
+    type: picture-elements
+  - cards:
+    - entities:
+      - device_tracker.ltreppeoben
+      - input_number.in_ltreppeoben
+      - icon: mdi:security-network
+        name: Link
+        type: weblink
+        url: http://ltreppeoben.steiner.net
+      type: entities
+    - entity: light.licht_treppe_oben
+      hold_action:
+        action: none
+      tap_action:
+        action: toggle
+      type: entity-button
+    title: Switches
+    type: horizontal-stack
+  - cards:
+    - entities:
+      - sensor.buro_temperatur
+      - sensor.oben_treppe_temperatur
+      - sensor.schlafzimmer_temperatur
+      - sensor.bad_temperatur
+      hours_to_show: 240
+      name: Temperatur
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.buro_feuchte
+      - entity: sensor.oben_treppe_feuchte
+      - entity: sensor.schlafzimmer_feuchte
+      - entity: sensor.bad_feuchte
+      hours_to_show: 240
+      name: Feuchte
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.buro_druck
+      - entity: sensor.bad_druck
+      hours_to_show: 240
+      name: Druck
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    type: vertical-stack
+  icon: ''
+  path: g_oben
+  title: Oben
+- badges: []
+  cards:
+  - cards:
+    - entities:
+      - entity: sensor.bad_temperatur
+        line_color_above:
+        - color: yellow
+          value: 17
+        - color: orange
+          value: 20
+        - color: red
+          value: 22
+      hours_to_show: 240
+      name: Temperatur
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.bad_feuchte
+      hours_to_show: 240
+      name: Feuchte
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.bad_druck
+      hours_to_show: 240
+      name: Druck
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - icon: mdi:security-network
+        name: Link
+        type: weblink
+        url: http://tsensorbad.steiner.net
+      - device_tracker.tsensorbad
+      - sensor.temperatur_sensor_bad_status
+      type: entities
+    type: vertical-stack
+  - entities:
+    - entity: device_tracker.tsensorbad
+    show_header_toggle: false
+    title: Tracker
+    type: entities
+  path: bad
+  title: Bad
+- badges: []
+  cards:
+  - entities:
+    - entity: device_tracker.wolfgang_pc
+    - entity: device_tracker.wolfgangs_s6
+    - entity: device_tracker.swbuero
+    - entity: device_tracker.w7der03852l
+    - entity: device_tracker.espabd84c
+    - entity: device_tracker.pbuero1
+    - entity: device_tracker.pbuero2
+    - entity: device_tracker.pbuero3
+    - entity: device_tracker.pi_dw1
+    - entity: device_tracker.pi_hole
+    show_header_toggle: false
+    title: "B\xFCro Tracker"
+    type: entities
+  - cards:
+    - entities:
+      - entity: sensor.buro_temperatur
+        line_color_above:
+        - color: yellow
+          value: 17
+        - color: orange
+          value: 20
+        - color: red
+          value: 22
+      hours_to_show: 240
+      name: Temperatur
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.buro_feuchte
+      hours_to_show: 240
+      name: Feuchte
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.buro_druck
+      hours_to_show: 240
+      name: Druck
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - icon: mdi:security-network
+        name: Link
+        type: weblink
+        url: http://tsensorbuero.steiner.net
+      - device_tracker.tsensorbuero
+      - sensor.sensor_buro_status
+      type: entities
+    type: vertical-stack
+  - entities:
+    - entity: cover.rolllade_buero_level
+    - entity: sensor.rolllade_buero_energy
+    - entity: sensor.rolllade_buero_power
+    - entity: zwave.rolllade_buero
+    show_header_toggle: false
+    title: Rolllade
+    type: entities
+  - entity: climate.heizen_buero_heating
+    modes:
+      heat:
+        icon: mdi:hand-right
+        include: true
+      'off':
+        include: true
+    sensors:
+    - entity: sensor.buro_temperatur
+    step_size: 0.5
+    type: custom:simple-thermostat
+  - entities:
+    - entity: input_number.in_temp_buero
+    - entity: climate.heizen_buero_heating
+    - entity: sensor.heizen_buero_battery_level
+    - entity: zwave.heizen_buero
+    show_header_toggle: false
+    title: Heizung
+    type: entities
+  - entities:
+    - sensor.buro_temperatur
+    - sensor.heizen_buero_temperature
+    - sensor.buro_soll
+    title: Temperatur
+    type: history-graph
+  - cards:
+    - entities:
+      - sensor.pow_buro1_energy_power
+      hours_to_show: 240
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - cards:
+      - entities:
+        - device_tracker.pbuero1
+        - sensor.pow_buro1_status
+        - icon: mdi:security-network
+          name: Link
+          type: weblink
+          url: http://pbuero1.steiner.net
+        type: entities
+      - entity: switch.pow_buro1
+        hold_action:
+          action: none
+        tap_action:
+          action: toggle
+        type: entity-button
+      title: Switches
+      type: horizontal-stack
+    - entities:
+      - head: sensor.pow_buro1_energy_total
+        items:
+        - sensor.pow_buro1_energy_voltage
+        - sensor.pow_buro1_energy_current
+        - sensor.pow_buro1_energy_factor
+        - sensor.pow_buro1_energy_today
+        - sensor.pow_buro1_energy_apparentpower
+        - sensor.pow_buro1_energy_total
+        - sensor.pow_buro1_energy_totalstarttime
+        - sensor.pow_buro1_energy_yesterday
+        type: custom:fold-entity-row
+      show_header_toggle: false
+      type: entities
+    type: vertical-stack
+  - cards:
+    - entities:
+      - sensor.pow_buro2_energy_power
+      hours_to_show: 240
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - cards:
+      - entities:
+        - device_tracker.pbuero2
+        - sensor.pow_buro2_status
+        - icon: mdi:security-network
+          name: Link
+          type: weblink
+          url: http://pbuero2.steiner.net
+        type: entities
+      - entity: switch.pow_buro2
+        hold_action:
+          action: none
+        tap_action:
+          action: toggle
+        type: entity-button
+      title: Switches
+      type: horizontal-stack
+    - entities:
+      - head: sensor.pow_buro2_energy_total
+        items:
+        - sensor.pow_buro2_energy_voltage
+        - sensor.pow_buro2_energy_current
+        - sensor.pow_buro2_energy_factor
+        - sensor.pow_buro2_energy_today
+        - sensor.pow_buro2_energy_apparentpower
+        - sensor.pow_buro2_energy_total
+        - sensor.pow_buro2_energy_totalstarttime
+        - sensor.pow_buro2_energy_yesterday
+        type: custom:fold-entity-row
+      show_header_toggle: false
+      type: entities
+    type: vertical-stack
+  - cards:
+    - entities:
+      - sensor.pow_buro_3_energy_power
+      hours_to_show: 240
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - cards:
+      - entities:
+        - device_tracker.pbuero3
+        - sensor.pow_buro_3_status
+        - icon: mdi:security-network
+          name: Link
+          type: weblink
+          url: http://pbuero3.steiner.net
+        type: entities
+      - entity: switch.pow_buro_3
+        hold_action:
+          action: none
+        tap_action:
+          action: toggle
+        type: entity-button
+      title: Switches
+      type: horizontal-stack
+    - entities:
+      - head: sensor.pow_buro_3_energy_total
+        items:
+        - sensor.pow_buro_3_energy_voltage
+        - sensor.pow_buro_3_energy_current
+        - sensor.pow_buro_3_energy_factor
+        - sensor.pow_buro_3_energy_today
+        - sensor.pow_buro_3_energy_apparentpower
+        - sensor.pow_buro_3_energy_total
+        - sensor.pow_buro_3_energy_totalstarttime
+        - sensor.pow_buro_3_energy_yesterday
+        type: custom:fold-entity-row
+      show_header_toggle: false
+      type: entities
+    type: vertical-stack
+  icon: mdi:paperclip
+  path: g_buero
+  title: "B\xFCro"
+- badges: []
+  cards:
+  - entities:
+    - entity: device_tracker.drucker
+    - entity: device_tracker.wlan_power
+    - entity: device_tracker.fritzbox
+    - entity: device_tracker.tsensorbuero2
+    show_header_toggle: false
+    title: "Tracker B\xFCro Barbara"
+    type: entities
+  - cards:
+    - entities:
+      - entity: sensor.buro2_temperatur
+        line_color_above:
+        - color: yellow
+          value: 17
+        - color: orange
+          value: 20
+        - color: red
+          value: 22
+      hours_to_show: 140
+      name: Temperatur
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.buro2_feuchte
+      hours_to_show: 140
+      name: Feuchte
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.buro2_druck
+      hours_to_show: 140
+      name: Druck
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - icon: mdi:security-network
+        name: Link
+        type: weblink
+        url: http://tsensorbuero2.steiner.net
+      - device_tracker.tsensorbuero2
+      - sensor.sensor_buro2_status
+      type: entities
+    type: vertical-stack
+  - entities:
+    - entity: sensor.fritz_netmonitor
+    - entity: sensor.fritz_transmission_down_speed
+    - entity: sensor.fritz_transmission_up_speed
+    - entity: sensor.anrufer
+    show_header_toggle: false
+    title: Fritz Box
+    type: entities
+  - entities:
+    - icon: mdi:ethernet
+      name: Fritz Box Links
+      type: weblink
+      url: http://10.10.0.1/
+    show_header_toggle: false
+    type: entities
+  - entity: climate.buro_2_104_1_107
+    modes:
+      heat:
+        icon: mdi:hand-right
+        include: true
+      'off':
+        include: true
+    sensors:
+    - entity: sensor.buro2_temperatur
+    step_size: 0.5
+    type: custom:simple-thermostat
+  - entities:
+    - entity: input_number.in_temp_buero2
+    - entity: climate.buro_2_104_1_107
+    - entity: sensor.buro_2_104_2_108
+    show_header_toggle: false
+    title: Heizung
+    type: entities
+  - entities:
+    - entity: sensor.buro2_temperatur
+    hours_to_show: 24
+    refresh_interval: 0
+    type: history-graph
+  icon: mdi:paperclip
+  path: g_buero2
+  title: "B\xFCro2"
+- badges: []
+  cards:
+  - entities:
+    - entity: device_tracker.dualschlaf
+    - entity: device_tracker.tsensorschlaf
+    show_header_toggle: false
+    title: Schlafzimmer Tracker
+    type: entities
+  - entities:
+    - icon: mdi:security-network
+      name: Rollladen Schlafzimmer Web
+      type: weblink
+      url: http://dualschlaf.steiner.net
+    - cover.window_1_cover
+    - entity: input_number.window_1_set_position
+      name: Set Position
+    - entity: input_number.window_1_position
+      name: Current Position
+    - timer.window_1_up
+    - timer.window_1_down
+    show_header_toggle: false
+    title: Schlafzimmer Rolllade Schalter
+    type: entities
+  - cards:
+    - entities:
+      - entity: sensor.schlafzimmer_temperatur
+        line_color_above:
+        - color: yellow
+          value: 17
+        - color: orange
+          value: 20
+        - color: red
+          value: 22
+      hours_to_show: 240
+      name: Temperatur
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.schlafzimmer_feuchte
+      hours_to_show: 240
+      name: Feuchte
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.schlafzimmer_druck
+      hours_to_show: 240
+      name: Druck
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - icon: mdi:security-network
+        name: Link
+        type: weblink
+        url: http://tsensorschlaf.steiner.net
+      - device_tracker.tsensorschlaf
+      - sensor.sensor_schlafzimmer_status
+      type: entities
+    type: vertical-stack
+  icon: mdi:sleep
+  path: g_schlafzimmer
+  title: Schlafzimmer
+- badges: []
+  cards:
+  - entities:
+    - entity: device_tracker.swspeicher
+    - entity: device_tracker.speicherbasteln
+    - entity: device_tracker.wlanspeicher
+    - entity: device_tracker.nuc
+    show_header_toggle: false
+    title: Speicher Tracker
+    type: entities
+  - elements:
+    - entity: sensor.speicher_temperatur
+      style:
+        left: 45%
+        top: 32%
+      type: state-label
+    - entity: sensor.speicher_feuchte
+      style:
+        left: 45%
+        top: 36%
+      type: state-label
+    - entity: sensor.speicher_druck
+      style:
+        left: 45%
+        top: 40%
+      type: state-label
+    - entity: sensor.oben_treppe_temperatur
+      style:
+        left: 85%
+        top: 48%
+      type: state-label
+    - entity: sensor.oben_treppe_feuchte
+      style:
+        left: 85%
+        top: 57%
+      type: state-label
+    image: /local/speicher.jpg
+    type: picture-elements
+  - cards:
+    - entities:
+      - device_tracker.speicherbasteln
+      - sensor.speicher_basteln_status
+      - icon: mdi:security-network
+        name: Link
+        type: weblink
+        url: http://speicherbasteln.steiner.net
+      type: entities
+    - entity: switch.speicher_basteln
+      hold_action:
+        action: none
+      tap_action:
+        action: toggle
+      type: entity-button
+    title: Switches
+    type: horizontal-stack
+  - cards:
+    - entities:
+      - entity: sensor.speicher_temperatur
+        line_color_above:
+        - color: yellow
+          value: 17
+        - color: orange
+          value: 20
+        - color: red
+          value: 22
+      hours_to_show: 240
+      name: Temperatur
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.speicher_feuchte
+      hours_to_show: 240
+      name: Feuchte
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - entity: sensor.speicher_druck
+      hours_to_show: 240
+      name: Druck
+      points_per_hour: 0.25
+      show:
+        extrema: true
+        labels: true
+      type: custom:mini-graph-card
+    - entities:
+      - icon: mdi:security-network
+        name: Link
+        type: weblink
+        url: http://speicherbasteln.fritz.box
+      - device_tracker.speicherbasteln
+      type: entities
+    type: vertical-stack
+  icon: mdi:cursor-pointer
+  path: g_speicher
+  title: Speicher
+- badges: []
+  cards:
+  - cameras:
+    - entity: camera.eingang
+    - entity: camera.hinten
+    - entity: camera.borkum
+    - entity: camera.borkum_wetter
+    - entity: camera.buro_fenster_camera
+    thumb_interval: 15
+    type: custom:surveillance-card
+    update_interval: 1
+  panel: true
+  title: CAM
+- badges: []
+  cards:
+  - entities:
+    - icon: mdi:security-network
+      name: RF Bridge Web
+      type: weblink
+      url: http://rfbridge.fritz.box
+    - sensor.rf_bridge_result
+    - sensor.rfbridge_status
+    - binary_sensor.node_red_lwt
+    show_header_toggle: false
+    title: Gruppe RF Bridge
+    type: entities
+  - entity: alarm_control_panel.ha_alarm
+    states:
+    - arm_home
+    - arm_away
+    type: alarm-panel
+  icon: mdi:access-point
+  path: g_bridge
+  title: Rf Bridge
+- badges: []
+  cards:
+  - card:
+      show_header_toggle: false
+      title: Z Wave
+      type: entities
+    filter:
+      include:
+      - domain: zwave
+    show_empty: false
+    type: custom:monster-card
+  - entities:
+    - entity: sensor.hass_uptime
+    - entity: sensor.ha_version
+    - entity: sensor.installed_version
+    - entity: input_select.log_level
+    - entity: binary_sensor.updater
+    show_header_toggle: false
+    title: Home Assistant Info
+    type: entities
+  - entities:
+    - entity: sensor.broker_subscriptions_count
+    - entity: sensor.broker_version
+    - entity: sensor.broker_uptime
+    - entity: sensor.clients_aktiv
+    - entity: sensor.clients_maximum
+    - entity: sensor.clients_total
+    - entity: sensor.clients_expired
+    - entity: sensor.messages_received
+    - entity: sensor.messages_sent
+    - entity: sensor.messages_stored
+    - entity: sensor.messages_retained_count
+    - entity: sensor.bytes_received
+    - entity: sensor.bytes_sent
+    - entity: sensor.broker_clients_expired
+    show_header_toggle: false
+    title: Mqtt
+    type: entities
+  - card:
+      show_header_toggle: false
+      title: Pi Hole
+      type: entities
+    filter:
+      include:
+      - entity_id: sensor.pi_hole_*
+    show_empty: false
+    type: custom:monster-card
+  - entities:
+    - script.notify_mqtt
+    show_header_toggle: true
+    title: all scripts
+    type: entities
+  - type: custom:theme-maker
+  - card:
+      show_header_toggle: false
+      title: Alle automation
+      type: entities
+    filter:
+      include:
+      - domain: automation
+    show_empty: false
+    type: custom:monster-card
+  icon: mdi:wrench
+  path: g_technik
+  title: Technik
+- badges: []
+  cards:
+  - entities:
+    - entity: sensor.buro_temperatur
+    hours_to_show: 24
+    refresh_interval: 0
+    type: history-graph
+  - entities:
+    - entity: sensor.garage_temperatur
+    hours_to_show: 24
+    refresh_interval: 0
+    type: history-graph
+  - entities:
+    - entity: sensor.gast_temperatur
+    hours_to_show: 24
+    refresh_interval: 0
+    type: history-graph
+  - entities:
+    - entity: sensor.kuche_temperatur
+    hours_to_show: 24
+    refresh_interval: 0
+    type: history-graph
+  - entities:
+    - entity: sensor.oben_treppe_temperatur
+    hours_to_show: 24
+    refresh_interval: 0
+    type: history-graph
+  - entities:
+    - entity: sensor.schlafzimmer_temperatur
+    hours_to_show: 24
+    refresh_interval: 0
+    type: history-graph
+  - entities:
+    - entity: sensor.wohnzimmer_temperatur
+    hours_to_show: 24
+    refresh_interval: 0
+    type: history-graph
+  - entities:
+    - entity: sensor.waschkuche_temperatur
+    hours_to_show: 24
+    refresh_interval: 0
+    type: history-graph
+  - entities:
+    - entity: sensor.vorrat_temperatur
+    hours_to_show: 24
+    refresh_interval: 0
+    type: history-graph
+  - entities:
+    - entity: sensor.speicher_temperatur
+    hours_to_show: 24
+    refresh_interval: 0
+    type: history-graph
+  - entities:
+    - entity: sensor.bad_temperatur
+    hours_to_show: 24
+    refresh_interval: 0
+    type: history-graph
+  - entities:
+    - entity: sensor.buro2_temperatur
+    hours_to_show: 24
+    refresh_interval: 0
+    type: history-graph
+  path: temp-heute
+  title: Temp. Heute
+- badges: []
+  cards:
+  - css: ":host {\n  --zigbee2mqtt-networkmap-node-color: rgba(18, 120, 98, .7);\n\
+      \  --zigbee2mqtt-networkmap-node-fill-color: #dcfaf3;\n  --zigbee2mqtt-networkmap-node-pinned-color:\
+      \ rgba(190, 56, 93, .6);\n  --zigbee2mqtt-networkmap-link-color: rgba(18, 120,\
+      \ 98, .5);\n  --zigbee2mqtt-networkmap-hover-color: #be385d;\n  --zigbee2mqtt-networkmap-link-selected-color:\
+      \ rgba(202, 164, 85, .6);\n  --zigbee2mqtt-networkmap-label-color: #127862;\n\
+      \  --zigbee2mqtt-networkmap-arrow-color: rgba(18, 120, 98, 0.7);\n  --zigbee2mqtt-networkmap-node-coordinator-color:\
+      \ rgba(224, 78, 93, .7);\n  --zigbee2mqtt-networkmap-node-router-color: rgba(0,\
+      \ 165, 255, .7);\n}\n"
+    entity: sensor.zigbee2mqtt_networkmap
+    font_size: 12
+    force: 3000
+    height: 400
+    link_width: 2
+    mqtt_base_topic: zigbee2mqtt
+    node_size: 16
+    type: custom:zigbee2mqtt-networkmap
+  - entities:
+    - entity: sensor.zigbee2mqtt_bridge_state
+    - entity: sensor.zigbee2mqtt_version
+    - entity: sensor.coordinator_version
+    - entity: input_select.zigbee2mqtt_log_level
+    - type: divider
+    - entity: switch.zigbee2mqtt_main_join
+    - entity: timer.zigbee_permit_join
+    - type: divider
+    - entity: input_text.zigbee2mqtt_old_name
+    - entity: input_text.zigbee2mqtt_new_name
+    - entity: script.zigbee2mqtt_rename
+    - type: divider
+    - entity: input_text.zigbee2mqtt_remove
+    - entity: script.zigbee2mqtt_remove
+    show_header_toggle: false
+    title: Zigbee2mqtt
+    type: entities
+  panel: false
+  path: zigbee
+  title: Zigbee
+- badges: []
+  cards:
+  - CalEventIcon1Filter: birthday
+    CalEventIcon2Filter: waste,bills
+    defaultMode: 2
+    enableModeChange: true
+    entities:
+    - entity: calendar.fasanenweg_dormagen_straberg_mein_abfallkalender_de
+    title: Kalender
+    type: custom:atomic-calendar
+  - filter:
+      include:
+      - key: light.aussen_led_light.*
+    heading_name: List
+    heading_state: States
+    title: Attributes Card
+    type: custom:entity-attributes-card
+  path: test
+  title: test
+- badges: []
+  cards:
+  - card:
+      show_header_toggle: false
+      title: Nuc
+      type: entities
+    filter:
+      include:
+      - entity_id: sensor.*nuc*
+    type: custom:monster-card
+  - card:
+      show_header_toggle: false
+      title: Pi-DM
+      type: entities
+    filter:
+      include:
+      - entity_id: sensor.*pi_dm*
+    type: custom:monster-card
+  - card:
+      show_header_toggle: false
+      title: Pi-DW1
+      type: entities
+    filter:
+      include:
+      - entity_id: sensor.*pi_dw1*
+    type: custom:monster-card
+  - card:
+      show_header_toggle: false
+      title: Pi-Radiob3
+      type: entities
+    filter:
+      include:
+      - entity_id: sensor.*pi_radiob3*
+    type: custom:monster-card
+  - card:
+      show_header_toggle: false
+      title: Pi-Hole
+      type: entities
+    filter:
+      include:
+      - entity_id: sensor.pi_holes*
+    type: custom:monster-card
+  path: glances
+  title: Glances
+- badges: []
+  cards: []
+  path: t
+  title: T

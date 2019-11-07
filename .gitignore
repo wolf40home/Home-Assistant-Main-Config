@@ -1,0 +1,12 @@
+*
+!*.yaml
+!custom_components
+!packages
+!themes
+!www
+!.gitignore
+secrets.yaml
+known_devices.yaml
+!varible.py
+/google_calendars.yaml
+
