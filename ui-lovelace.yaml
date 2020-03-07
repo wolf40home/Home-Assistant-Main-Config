@@ -30,8 +30,6 @@ views:
     - entity: sensor.mond
     - entity: sensor.licht_aquarium_bme280_pressure
     - entity: sensor.node_red_neue_version
-    - entity: sensor.installed_version
-    - entity: sensor.current_version
     - entity: switch.urlaub
     show_header_toggle: false
     title: Informationen
@@ -1742,7 +1740,6 @@ views:
   - entities:
     - entity: sensor.hass_uptime
     - entity: sensor.ha_version
-    - entity: sensor.installed_version
     - entity: input_select.log_level
     - entity: binary_sensor.updater
     show_header_toggle: false

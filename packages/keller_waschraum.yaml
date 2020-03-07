@@ -1,0 +1,43 @@
+switch:
+
+  - platform: wake_on_lan
+    name: Nas2 Wake
+    mac: "00:08:9B:D1:73:18"
+    host: "10.10.0.3"
+    
+sensor:
+
+#qnap
+
+  - platform: qnap
+    host: 10.10.0.3
+    username: !secret fritz_user
+    password: !secret normal_password
+    timeout: 30
+    monitored_conditions:
+      - status
+      - cpu_usage
+      - memory_percent_used
+      - network_tx
+      - network_rx
+      - volume_percentage_used
+      - drive_smart_status
+
+  
+  - platform: mqtt
+    name: "Waschraum Temperatur"
+    state_topic: lkellerwaschk/Sensor/Temperature
+    unit_of_measurement: '°C'
+    device_class: temperature
+    
+  - platform: mqtt
+    name: "Waschraum Feuchte"
+    state_topic: lkellerwaschk/Sensor/Humidity
+    unit_of_measurement: '%'
+    device_class: humidity
+    
+  - platform: mqtt
+    name: "Waschraum Druck"
+    state_topic: lkellerwaschk/Sensor/Pressure
+    device_class: pressure
+    unit_of_measurement: "hPa"

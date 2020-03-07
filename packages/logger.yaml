@@ -2,7 +2,7 @@ logger:
   default: critical
   logs:
     homeassistant.core: fatal
-    homeassistant.components.mqtt: warning
+    homeassistant.components.mqtt: error
     homeassistant.components.rest: warn
     homeassistant.components.zha: warn
     homeassistant.components.camera: warn
@@ -31,7 +31,7 @@ logger:
     homeassistant.components.sensor.usps: warn
     homeassistant.components.feedreader: warn
     homeassistant.components: critical
-    homeassistant.components.binary_sensor.mqtt: error
+    homeassistant.components.mqtt.binary_sensor: error
     bellows.uart: warn
     homeassistant.helpers.script: warn
     homeassistant.helpers.entity: warn

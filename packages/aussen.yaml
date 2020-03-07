@@ -7,37 +7,40 @@ binary_sensor:
           {{ states.sun.sun.attributes.elevation|float > 0 }}
 
 
+
 sensor:
 
   - platform: mqtt
     name:  aussen Temperatur
-    state_topic: "tele/rf434/tcm/245"
+    state_topic: "aussen/Sensor/Temperature"
     unit_of_measurement: "°C"
-    value_template:  "{{(value_json.temperature| float )| round(1)}}"  
  
   - platform: mqtt
     name:  aussen Feuchte
-    state_topic: "tele/rf434/tcm/245"
+    state_topic: "aussen/Sensor/Humidity"
     unit_of_measurement: "%"
-    value_template:  "{{(value_json.humidity| float )| round(1)}}" 
-
-  - platform: min_max
-    name: LA Luminance
-    type: min
-    entity_ids:
-      - sensor.eingang_strahler_luminance
-      - sensor.hinten_strahler_luminance
-      - sensor.vorne_strahler_luminance
-      
-
+ 
+  - platform: mqtt
+    name:  aussen Druck
+    state_topic: "aussen/Sensor/Pressure"
+    unit_of_measurement: "hPa"
     
   - platform: mqtt
     name: "Luft Nievenheim PM10"
-    state_topic: nodered/Luftdaten/Sensor/PM10
-    json_attributes_topic: nodered/Luftdaten/Sensor/attributesPM10
+    state_topic: "aussen/Sensor/N/PM10"
+    json_attributes_topic: "aussen/Sensor/N/attributesPM10"
     
   - platform: mqtt
     name: "Luft Nievenheim PM2.5"
-    state_topic: nodered/Luftdaten/Sensor/PM2.5   
-    json_attributes_topic: nodered/Luftdaten/Sensor/attributesPM2.5
+    state_topic: "aussen/Sensor/N/PM25"   
+    json_attributes_topic: "aussen/Sensor/N/attributesPM25"
     
+  - platform: mqtt
+    name: "Luft Straberg PM10"
+    state_topic: "aussen/Sensor/PM10"
+    json_attributes_topic: "aussen/Sensor/attributes"
+    
+  - platform: mqtt
+    name: "Luft Straberg PM2.5"
+    state_topic: "aussen/Sensor/PM25"   
+    json_attributes_topic: "aussen/Sensor/attributes"    

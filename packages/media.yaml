@@ -33,11 +33,11 @@ media_player:
     host: amazon-cdea109b9.steiner.net
 
   - platform: mpd
-    name: nuc_mpd
-    host: nuc
+    name: MPD Player
+    host: pi-dm
 
   - platform: snapcast
-    host: nuc
+    host: pi-dm
 
 binary_sensor:
   - platform: template
@@ -46,8 +46,8 @@ binary_sensor:
         friendly_name: "RSH läuft"
         device_class: sound
         value_template: >-
-                    {% if is_state('media_player.nuc_mpd', 'playing') %}
-                     {% if states.media_player.nuc_mpd.attributes.media_title[0:4] == 'R.SH' %}
+                    {% if is_state('media_player.mpd_player', 'playing') %}
+                     {% if states.media_player.mpd_player.attributes.media_title[0:4] == 'R.SH' %}
                        true
                      {% else %}
                        false
@@ -62,4 +62,4 @@ binary_sensor:
       bs_play_mpd:
         friendly_name: "MPD läuft"
         device_class: sound
-        value_template: "{{ is_state('media_player.nuc_mpd', 'playing') }}"
+        value_template: "{{ is_state('media_player.mpd_player', 'playing') }}"

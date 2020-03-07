@@ -1,0 +1,29 @@
+    
+sensor:
+
+  - platform: mqtt
+    name: "Keller Flur Temperatur"
+    state_topic: lkellerflur/Sensor/Temperature
+    unit_of_measurement: '°C'
+    device_class: temperature
+    
+  - platform: mqtt
+    name: "Keller Flur Feuchte"
+    state_topic: lkellerflur/Sensor/Humidity
+    unit_of_measurement: '%'
+    device_class: humidity
+    
+  - platform: mqtt
+    name: "Keller Flur Druck"
+    state_topic: lkellerflur/Sensor/Pressure
+    device_class: pressure
+    unit_of_measurement: "hPa"
+    
+input_number:
+
+  in_temp_kflur:
+    name: Keller Flurtemperatur
+    mode: slider
+    min: 18
+    max: 24
+    step: 0.5

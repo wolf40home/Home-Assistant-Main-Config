@@ -1,7 +1,5 @@
 homeassistant:
   customize:
-    sensor.ha_version:
-      friendly_name: New Ha Release
 
     sensor.hass_uptime:
       friendly_name: Home Assistant Uptime
@@ -10,47 +8,11 @@ homeassistant:
       friendly_name: "GitHub Version"
       icon: mdi:github-box
 
-group:
-  g_homeass_version_card:
-   name: Home Assistant Info
-   entities:
-     - sensor.hass_uptime
-     - sensor.ha_version
-     - sensor.installed_version
-     - input_select.log_level
-
-
-
 sensor:
   ###### VERSIONS
 
   - platform: version
     name: Installed Version
-
-  - platform: mqtt
-    name: current Version
-    state_topic: "tele/hass1/Version"
-
-
-
-
-
-###### CUSTOM HA/Version
-  - platform: template
-    sensors:
-      ha_version:
-        value_template: >-
-          {% if is_state('sensor.current_version', states('sensor.installed_version')) %}
-            {{ states('sensor.installed_version') }}
-          {% else %}
-            {{ states('sensor.current_version') }} Available
-          {% endif %}
-        icon_template: >-
-          {% if is_state('sensor.current_version', states('sensor.installed_version')) %}
-            mdi:checkbox-marked
-          {% else %}
-            mdi:checkbox-blank-outline
-          {% endif %}
 
   - platform: uptime
     name: "HASS Uptime"

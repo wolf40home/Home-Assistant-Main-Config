@@ -6,6 +6,18 @@ input_number:
     max: 24
     step: 0.5
     unit_of_measurement: °C
+
+binary_sensor:
+
+  - platform: mqtt
+    name: "Büro2fenster Kontakt"
+    state_topic: 'nodered/alarmkontakte/fensterbuero2'
+    device_class: window
+
+  - platform: mqtt
+    name: "Büro2fenster Kontakt Batt"
+    state_topic: 'nodered/batt/fensterbuero2'
+    device_class: battery
     
 sensor:
    
@@ -52,21 +64,35 @@ sensor:
         value_template: "{{ '{:.0f}'.format(states.sensor.fritz_netmonitor.attributes.bytes_sent|float/ 1024*8) }}" 
         
    
+    
   - platform: mqtt
-    name: "Büro2 Temperatur"
+    name: "Büro 2 Info"
+    state_topic: tsensorbuero2/wifi/rssi
+    icon: "mdi:information-outline"
+    json_attributes_topic: tsensorbuero2/wifi/jstatus
+    unit_of_measurement: "db"
+
+  - platform: mqtt
+    name: "Büro 2 Sensor"
+    state_topic: tsensorbuero2/SENSOR/absolute_feuchte
+    icon: "mdi:information-outline"
+    json_attributes_topic: tsensorbuero2/SENSOR/sensor
+    unit_of_measurement: "g/m³"
+
+  - platform: mqtt
+    name: "Büro 2 Temperatur"
     state_topic: tsensorbuero2/Sensor/Temperature
     unit_of_measurement: '°C'
     device_class: temperature
     
   - platform: mqtt
-    name: "Büro2 Feuchte"
+    name: "Büro 2 Feuchte"
     state_topic: tsensorbuero2/Sensor/Humidity
     unit_of_measurement: '%'
     device_class: humidity
     
   - platform: mqtt
-    name: "Büro2 Druck"
+    name: "Büro 2 Druck"
     state_topic: tsensorbuero2/Sensor/Pressure
-    unit_of_measurement: 'hPa'
     device_class: pressure
-
+    unit_of_measurement: "hPa"

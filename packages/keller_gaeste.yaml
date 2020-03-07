@@ -1,0 +1,65 @@
+binary_sensor:
+
+  - platform: mqtt
+    name: "Kellerfenster Kontakt L"
+    state_topic: 'nodered/alarmkontakte/FensterKellerL'
+    device_class: window
+  - platform: mqtt
+    name: "Kellerfenster Kontakt L Batt"
+    state_topic: "nodered/batt/FensterKellerL"
+    qos: 0
+    device_class: battery
+    
+  - platform: mqtt
+    name: "Kellerfenster Kontakt R"
+    state_topic: 'nodered/alarmkontakte/FensterKellerR'
+    device_class: window
+
+  - platform: mqtt
+    name: "Kellerfenster Kontakt R Batt"
+    state_topic: "nodered/batt/FensterKellerR"
+    qos: 0
+    device_class: battery
+
+switch:
+  - platform: wake_on_lan
+    name: Nas3 Wake
+    mac: "00:11:32:83:E3:3E"
+    host: "10.10.0.4"
+    
+sensor:
+  - platform: synologydsm
+    host: 10.10.0.4
+    port: 5000
+    ssl: false
+    username: status
+    password: !secret normal_password
+    monitored_conditions:
+      - network_up
+      - network_down
+      - cpu_total_load
+      - memory_real_usage
+      - disk_status
+      - disk_smart_status
+      - disk_temp
+      - volume_percentage_used
+      - volume_disk_temp_avg
+      - volume_disk_temp_max
+
+  - platform: mqtt
+    name: "Gast Temperatur"
+    state_topic: rschalter1/Sensor/Temperature
+    unit_of_measurement: '°C'
+    device_class: temperature
+    
+  - platform: mqtt
+    name: "Gast Feuchte"
+    state_topic: rschalter1/Sensor/Humidity
+    unit_of_measurement: '%'
+    device_class: humidity
+    
+  - platform: mqtt
+    name: "Gast Druck"
+    state_topic: rschalter1/Sensor/Pressure
+    device_class: pressure
+    unit_of_measurement: "hPa"

@@ -1,0 +1,31 @@
+binary_sensor:   
+  - platform: mqtt
+    name: "Vorratsfenster Kontakt"
+    state_topic: 'nodered/alarmkontakte/FensterVorrat'
+    device_class: window
+
+  - platform: mqtt
+    name: "Vorratsfenster Kontakt Batt"
+    state_topic: "nodered/batt/FensterVorrat"
+    qos: 0
+    device_class: battery
+   
+sensor:
+  - platform: mqtt
+    name: "Vorrat Temperatur"
+    state_topic: lschaltervor/Sensor/Temperature
+    unit_of_measurement: '°C'
+    device_class: temperature
+    
+  - platform: mqtt
+    name: "Vorrat Feuchte"
+    state_topic: lschaltervor/Sensor/Humidity
+    unit_of_measurement: '%'
+    device_class: humidity
+    
+  - platform: mqtt
+    name: "Vorrat Druck"
+    state_topic: lschaltervor/Sensor/Pressure
+    device_class: pressure
+    unit_of_measurement: "hPa"
+    

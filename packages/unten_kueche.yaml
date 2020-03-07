@@ -1,6 +1,20 @@
 
 sensor:
   - platform: mqtt
+    name: "Radio Küche Info"
+    state_topic: rschalter/wifi/rssi
+    icon: "mdi:information-outline"
+    json_attributes_topic: rschalter/wifi/jstatus
+    unit_of_measurement: "db"
+
+  - platform: mqtt
+    name: "Radio Küche Sensor"
+    state_topic: rschalter/SENSOR/absolute_feuchte
+    icon: "mdi:information-outline"
+    json_attributes_topic: rschalter/SENSOR/sensor
+    unit_of_measurement: "g/m³"
+    
+  - platform: mqtt
     name: "Küche Temperatur"
     state_topic: rschalter/Sensor/Temperature
     unit_of_measurement: '°C'
@@ -11,12 +25,12 @@ sensor:
     state_topic: rschalter/Sensor/Humidity
     unit_of_measurement: '%'
     device_class: humidity
-
+    
   - platform: mqtt
     name: "Küche Druck"
     state_topic: rschalter/Sensor/Pressure
-    unit_of_measurement: 'hPa'
     device_class: pressure
+    unit_of_measurement: "hPa"
     
   - platform: mqtt
     state_topic: "kuechepanel/sensor/battery"
@@ -50,12 +64,24 @@ binary_sensor:
     name: "Kuechentuer Kontakt"
     state_topic: 'nodered/alarmkontakte/Kuechentuer'
     device_class: door
-
+  
+  - platform: mqtt
+    name: "Kuechentuer Kontakt Batt"
+    state_topic: "nodered/batt/Kuechentuer"
+    qos: 0
+    device_class: battery
+    
   - platform: mqtt
     name: "Kuechenfenster Kontakt"
     state_topic: 'nodered/alarmkontakte/FensterKueche'
     device_class: window
-   
+
+  - platform: mqtt
+    name: "Kuechenfenster Kontakt Batt"
+    state_topic: "nodered/batt/FensterKueche"
+    qos: 0
+    device_class: battery
+    
 media_player:
 
   - platform: kodi
@@ -65,13 +91,6 @@ media_player:
 
           
 input_number:
-
-  in_mpd_kueche:
-    name: Küchelautstärke
-    mode: slider
-    min: 0
-    max: 1
-    step: 0.05
 
   in_temp_kueche:
     name: Küchentemperatur
@@ -83,23 +102,6 @@ input_number:
 automation:
 
 
-  - alias: Lautstaerke - Kueche
-    trigger:
-      platform: state
-      entity_id: input_number.in_mpd_kueche
-    condition:
-      condition: state
-      entity_id: media_player.pi_media_mpd
-      state: 'playing'
-    action:
-      - service: media_player.volume_set
-        # Note the use of 'data_template:' below rather than the normal 'data:' if you weren't using an input variable
-        data_template:
-          entity_id: media_player.snapcast_client_7cdd90001fed_2
-          volume_level: '{{ trigger.to_state.state }}'
-      - service: script.notify_mqtt
-        data:
-          message: "*Radio Küche* \n Lautstaerke geaendert"
   - id: '1538595661244'
     alias: MQTT Weather
     trigger:

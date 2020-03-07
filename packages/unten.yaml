@@ -4,33 +4,39 @@ binary_sensor:
     name: "Haustuer Kontakt"
     state_topic: 'nodered/alarmkontakte/Haustuer'
     device_class: door
-    
+
+  - platform: mqtt
+    name: "Haustuer Kontakt Batt"
+    state_topic: "nodered/batt/Haustuer"
+    qos: 0
+    device_class: battery
+ 
+ 
   - platform: mqtt
     name: "Treppenfenster Kontakt"
     state_topic: 'nodered/alarmkontakte/FensterTreppe'
     device_class: window
-    
+
+  - platform: mqtt
+    name: "Treppenfenster Kontakt Batt"
+    state_topic: "nodered/batt/FensterTreppe"
+    qos: 0
+    device_class: battery
+ 
+ 
   - platform: mqtt
     name: "WC Fenster Kontakt"
     state_topic: 'nodered/alarmkontakte/FensterWc'
     device_class: window
 
   - platform: mqtt
-    name: "Vorratsfenster Kontakt"
-    state_topic: 'nodered/alarmkontakte/FensterVorrat'
-    device_class: window
-   
-sensor:
-  - platform: mqtt
-    name: "Vorrat Temperatur"
-    state_topic: lschaltervor/Sensor/Temperature
-    unit_of_measurement: '°C'
-    device_class: temperature
-  - platform: mqtt
-    name: "Vorrat Feuchte"
-    state_topic: lschaltervor/Sensor/Humidity
-    unit_of_measurement: '%'
-    device_class: humidity
+    name: "WC Fenster Kontakt Batt"
+    state_topic: "nodered/batt/FensterWc"
+    qos: 0
+    device_class: battery
+
+
+
 
 
 input_number:

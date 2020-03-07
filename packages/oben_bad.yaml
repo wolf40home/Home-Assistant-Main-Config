@@ -18,8 +18,22 @@ binary_sensor:
     state_topic: 'nodered/alarmkontakte/fensterbuero'
     device_class: window
 
-
 sensor:    
+    
+  - platform: mqtt
+    name: "Bad Info"
+    state_topic: tsensorbad/wifi/rssi
+    icon: "mdi:information-outline"
+    json_attributes_topic: tsensorbad/wifi/jstatus
+    unit_of_measurement: "db"
+
+  - platform: mqtt
+    name: "Bad Sensor"
+    state_topic: tsensorbad/SENSOR/absolute_feuchte
+    icon: "mdi:information-outline"
+    json_attributes_topic: tsensorbad/SENSOR/sensor
+    unit_of_measurement: "g/m³"
+    
   - platform: mqtt
     name: "Bad Temperatur"
     state_topic: tsensorbad/Sensor/Temperature
@@ -35,5 +49,5 @@ sensor:
   - platform: mqtt
     name: "Bad Druck"
     state_topic: tsensorbad/Sensor/Pressure
-    unit_of_measurement: 'hPa'
     device_class: pressure
+    unit_of_measurement: "hPa"

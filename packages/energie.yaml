@@ -1,0 +1,112 @@
+utility_meter:
+  drucker_3d_daily_energy:
+    source: sensor.drucker_3d_power_energy
+    cycle: daily
+    tariffs:
+      - normal
+  drucker_3d_monthly_energy:
+    source: sensor.drucker_3d_power_energy
+    cycle: monthly
+    tariffs:
+      - normal
+  drucker_3d_yearly_energy:
+    source: sensor.drucker_3d_power_energy
+    cycle: yearly
+    tariffs:
+      - normal
+      
+  kaffe_daily_energy:
+    source: sensor.kueche_kaffee_energy
+    cycle: daily
+    tariffs:
+      - normal
+  kaffe_monthly_energy:
+    source: sensor.kueche_kaffee_energy
+    cycle: monthly
+    tariffs:
+      - normal
+  kaffe_yearly_energy:
+    source: sensor.kueche_kaffee_energy
+    cycle: yearly
+    tariffs:
+      - normal
+      
+  brunnen_daily_energy:
+    source: sensor.brunnen_power_energy_today
+    cycle: daily
+    tariffs:
+      - normal
+  brunnen_monthly_energy:
+    source: sensor.brunnen_power_energy_today
+    cycle: monthly
+    tariffs:
+      - normal
+  brunnen_yearly_energy:
+    source: sensor.brunnen_power_energy_today
+    cycle: yearly
+    tariffs:
+      - normal  
+      
+  buro_pow1_daily_energy:
+    source: sensor.pow_buro1_energy_today
+    cycle: daily
+    tariffs:
+      - normal
+  buro_pow1_monthly_energy:
+    source: sensor.pow_buro1_energy_today
+    cycle: monthly
+    tariffs:
+      - normal
+  buro_pow1_yearly_energy:
+    source: sensor.pow_buro1_energy_today
+    cycle: yearly
+    tariffs:
+      - normal
+      
+  buro_pow2_daily_energy:
+    source: sensor.pow_buro2_energy_today
+    cycle: daily
+    tariffs:
+      - normal
+  buro_pow2_monthly_energy:
+    source: sensor.pow_buro2_energy_today
+    cycle: monthly
+    tariffs:
+      - normal
+  buro_pow2_yearly_energy:
+    source: sensor.pow_buro2_energy_today
+    cycle: yearly
+    tariffs:
+      - normal
+
+  buro_pow3_daily_energy:
+    source: sensor.pow_buro_3_energy_today
+    cycle: daily
+    tariffs:
+      - normal
+  buro_pow3_monthly_energy:
+    source: sensor.pow_buro_3_energy_today
+    cycle: monthly
+    tariffs:
+      - normal
+  buro_pow3_yearly_energy:
+    source: sensor.pow_buro_3_energy_today
+    cycle: yearly
+    tariffs:
+      - normal 
+      
+  aquarium_daily_energy:
+    source: sensor.wohnzimmer_aquarium_energy
+    cycle: daily
+    tariffs:
+      - normal
+  aquarium_monthly_energy:
+    source: sensor.wohnzimmer_aquarium_energy
+    cycle: monthly
+    tariffs:
+      - normal
+  aquarium_yearly_energy:
+    source: sensor.wohnzimmer_aquarium_energy
+    cycle: yearly
+    tariffs:
+      - normal     

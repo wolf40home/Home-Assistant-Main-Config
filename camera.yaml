@@ -18,9 +18,8 @@
   framerate: 1
   still_image_url: http://10.10.0.17:80/cgi-bin/snapshot.cgi
  
+ 
 - platform: mjpeg
-  mjpeg_url: http://pi-dw1:8081/
-  name: Büro Fenster Camera 
-#- platform: mjpeg
-#  mjpeg_url: http://Tablet-Kueche.steiner.net:2971/camera/stream
-#  name: Küche Panel Camera
+  name: Drucker 3d Camera 
+  still_image_url: http://octopi/webcam/?action=snapshot
+  mjpeg_url: http://octopi/webcam/?action=stream

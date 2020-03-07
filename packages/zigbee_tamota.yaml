@@ -1,0 +1,8 @@
+
+sensor:    
+  - platform: mqtt
+    name: "Zigbee RESULT"
+    state_topic: Zigbee/tele/RESULT
+
+
+

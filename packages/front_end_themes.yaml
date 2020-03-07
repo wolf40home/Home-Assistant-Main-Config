@@ -8,6 +8,9 @@ input_select:
     name: Theme Select
     options:
      - amoled
+     - clear
+     - clear-dark
+     - slate
      - dark_orange
      - dark_teal
      - grey_night
@@ -19,7 +22,7 @@ input_select:
      - light_green
      - light_pink
      - default
-    initial: default
+    initial: amoled
 
 
 ###############################################################################
@@ -37,31 +40,29 @@ automation:
          data_template:
            name: >
              {% if states.sun.sun.state == "above_horizon" %}
-             {{ ["light_beach", "light_green", "light_pink", "default"] | random  }}
+             {{ ["light_beach", "light_green", "light_pink", "clear", "default"] | random  }}
              {% else %}
-             {{ ["amoled","dark_cyan", "dark_red", "dark_orange", "dark_teal","grey_night", "midnight","halloween"] | random  }}
+             {{ ["amoled","dark_cyan", "dark_red", "dark_orange", "dark_teal","grey_night", "midnight","halloween", "clear-dark", "slate"] | random  }}
              {% endif %}
   - alias: Random Darker Theme At Sunset
     initial_state: true
-    hide_entity: true
     trigger:
       platform: sun
       event: sunset
     action:
       - service: frontend.set_theme
         data_template:
-          name: '{{ ["amoled","dark_cyan", "dark_red", "dark_orange", "dark_teal","grey_night", "midnight","halloween"] | random  }}'
+          name: '{{ ["amoled", "slate","dark_cyan", "dark_red", "dark_orange", "dark_teal","grey_night", "clear-dark", "midnight","halloween"] | random  }}'
 
   - alias: Random Lighter Theme At Sunrise
     initial_state: true
-    hide_entity: true
     trigger:
       platform: sun
       event: sunrise
     action:
       - service: frontend.set_theme
         data_template:
-          name: '{{ ["light_beach", "light_green", "light_pink", "default"] | random  }}'
+          name: '{{ ["light_beach", "light_green", "light_pink", "clear", "default"] | random  }}'
 
   - alias: Theme set automation
     trigger:

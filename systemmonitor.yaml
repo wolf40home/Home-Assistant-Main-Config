@@ -105,7 +105,7 @@ sensor:
 
   - platform: glances
     host: pi-hole
-    name: pi-holes
+    name: pi-hole
 #    username: login
 #    password: password
     version: 3

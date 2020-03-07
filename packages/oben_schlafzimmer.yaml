@@ -1,5 +1,19 @@
 sensor:
-    
+  
+  - platform: mqtt
+    name: "Schlafzimmer Info"
+    state_topic: tsensorschlaf/wifi/rssi
+    icon: "mdi:information-outline"
+    json_attributes_topic: tsensorschlaf/wifi/jstatus
+    unit_of_measurement: "db"
+
+  - platform: mqtt
+    name: "Schlafzimmer Sensor"
+    state_topic: tsensorschlaf/SENSOR/absolute_feuchte
+    icon: "mdi:information-outline"
+    json_attributes_topic: tsensorschlaf/SENSOR/sensor
+    unit_of_measurement: "g/m³"
+
   - platform: mqtt
     name: "Schlafzimmer Temperatur"
     state_topic: tsensorschlaf/Sensor/Temperature
@@ -11,12 +25,13 @@ sensor:
     state_topic: tsensorschlaf/Sensor/Humidity
     unit_of_measurement: '%'
     device_class: humidity
-
+    
   - platform: mqtt
     name: "Schlafzimmer Druck"
     state_topic: tsensorschlaf/Sensor/Pressure
-    unit_of_measurement: 'hPa'
     device_class: pressure
+    unit_of_measurement: "hPa"   
+    
 timer:
   window_1_up:
     name: Timer Schlafzimmer Auf

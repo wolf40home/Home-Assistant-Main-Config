@@ -13,34 +13,32 @@ input_number:
 binary_sensor:
 
   - platform: mqtt
-    state_topic: "rf434/state"
-    name: "rf434"
-    device_class: power
-    payload_on: "online"
-    payload_off: "offline"
-    value_template: '{{ value_json.state }}'
-    
-  - platform: mqtt
-    name: gt9000_197432_1
-    state_topic: RF433/FB1
-
-
-  - platform: mqtt
-    name: gt9000_197432_3
-    state_topic: RF433/FB2
-
-  - platform: mqtt
-    name: gt9000_197432_4
-    state_topic: RF433/FB4
-
-    
-  - platform: mqtt
     name: "Bürofenster Kontakt"
     state_topic: 'nodered/alarmkontakte/fensterbuero'
     device_class: window
 
+  - platform: mqtt
+    name: "Bürofenster Kontakt Batt"
+    state_topic: 'nodered/batt/fensterbuero'
+    device_class: battery
+
+
 
 sensor:    
+  - platform: mqtt
+    name: "Büro Info"
+    state_topic: tsensorbuero/wifi/rssi
+    icon: "mdi:information-outline"
+    json_attributes_topic: tsensorbuero/wifi/jstatus
+    unit_of_measurement: "db"
+
+  - platform: mqtt
+    name: "Büro Sensor"
+    state_topic: tsensorbuero/SENSOR/absolute_feuchte
+    icon: "mdi:information-outline"
+    json_attributes_topic: tsensorbuero/SENSOR/sensor
+    unit_of_measurement: "g/m³"
+
   - platform: mqtt
     name: "Büro Temperatur"
     state_topic: tsensorbuero/Sensor/Temperature
@@ -56,9 +54,9 @@ sensor:
   - platform: mqtt
     name: "Büro Druck"
     state_topic: tsensorbuero/Sensor/Pressure
-    unit_of_measurement: 'hPa'
     device_class: pressure
-
+    unit_of_measurement: "hPa"
+    
   - platform: template
     sensors:
       buro_soll:

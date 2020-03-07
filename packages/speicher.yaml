@@ -1,4 +1,12 @@
 sensor:
+
+  - platform: mqtt
+    name: "Speicher Sensor"
+    state_topic: speicherbasteln/SENSOR/absolute_feuchte
+    icon: "mdi:information-outline"
+    json_attributes_topic: speicherbasteln/SENSOR/sensor
+    unit_of_measurement: "g/m³"
+    
   - platform: mqtt
     name: "Speicher Temperatur"
     state_topic: speicherbasteln/Sensor/Temperature
@@ -10,9 +18,9 @@ sensor:
     state_topic: speicherbasteln/Sensor/Humidity
     unit_of_measurement: '%'
     device_class: humidity
-
+    
   - platform: mqtt
     name: "Speicher Druck"
     state_topic: speicherbasteln/Sensor/Pressure
-    unit_of_measurement: 'hPa'
     device_class: pressure
+    unit_of_measurement: "hPa"

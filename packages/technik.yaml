@@ -34,13 +34,14 @@ binary_sensor:
     payload_off: Offline
     device_class: connectivity 
     
-automation:      
-  - alias: "Power state on HA start-up"
-    trigger:
-      platform: homeassistant
-      event: start
-    action:
-      - service: mqtt.publish
-        data:
-          topic: "sonoffs/cmnd/Status"
-          payload: "2" 
+automation:
+  alias: Update Available Notification
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.updater
+      from: 'off'
+      to: 'on'
+  action:
+    - service: script.notify_mqtt
+      data_template:
+        message: "Home Assistant {{ state_attr('binary_sensor.updater', 'newest_version') }} is available."

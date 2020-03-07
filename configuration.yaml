@@ -1,4 +1,3 @@
-
 homeassistant:
 
   #-------------------------------------------
@@ -7,9 +6,10 @@ homeassistant:
 #     api_password: !secret http_password
   #-------------------------------------------
   packages: !include_dir_named packages
-#  customize: !include customize.yaml
-# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 
+
+
+#-------------------------------------------
 # HTTP Server Config
 #-------------------------------------------
 http:
@@ -26,19 +26,19 @@ http:
 panel_iframe: !include panels.yaml
 
 automation: !include automations.yaml
+ 
 config:
 
 google:
   client_id: !secret google_client_id
   client_secret: !secret google_client_secret
-  
+ 
 # Frontend Settings
 #-------------------------------------------
 frontend:
-#  javascript_version: latest
   themes: !include_dir_merge_named themes
-  
 #-------------------------------------------
+
 # History support
 #-------------------------------------------
 history: !include history.yaml
@@ -47,30 +47,11 @@ history: !include history.yaml
 #-------------------------------------------
 logbook: !include logbook.yaml
 
-# Recorder Settings
-#-------------------------------------------
-recorder:  !include recorder.yaml
-#-------------------------------------------
-
-       
-fibaro:
-  gateways:
-    - url: http://10.10.0.12/api/
-      username:  !secret fibaro_user
-      password: !secret fibaro_pw
-      
-      
+system_log:
+  max_entries: 500
+  
 # Enables a map showing the location of tracked devices
 #-------------------------------------------
-map:
-
-person:
-
-ssdp:
-
-# Track the sun
-#-------------------------------------------
-sun:
 
 #-------------------------------------------
 system_health:
@@ -83,13 +64,30 @@ updater:
 #  include_used_components: true
 
 
-# Text to speech
-#tts:
- # - platform: google_translate
+# Recorder Settings
+#-------------------------------------------
+recorder:  !include recorder.yaml
+#-------------------------------------------
 
-group: !include groups.yaml
+# Enables a map showing the location of tracked devices
+#-------------------------------------------
+map:
 
-script: !include scripts.yaml
+person:
+
+ssdp:
+
+# Track the sun
+#-------------------------------------------
+sun:
+
+#history_graph: !include history_graph.yaml
+#-------------------------------------------
+
+# Browser
+#-------------------------------------------
+browser:
+#-------------------------------------------
 
 # Wlan Asus
 asuswrt:
@@ -105,7 +103,7 @@ pi_hole:
   ssl: false
   verify_ssl: false
  
-
+#-------------------------------------------
 #MQTT
 #-------------------------------------------
 mqtt:
@@ -141,20 +139,7 @@ remote_homeassistant:
     subscribe_events:
     - zwave.network_ready
     - zwave.node_event
-
-    
-system_log:
-  max_entries: 500
-#-------------------------------------------
-
-
-# Tracer support
-#-------------------------------------------
-device_tracker: !include device_tracker.yaml
-
-# Browser
-#-------------------------------------------
-browser:
+  
 #-------------------------------------------
 
 weather:
@@ -180,6 +165,8 @@ zeroconf:
 #-------------------------------------------
 camera: !include camera.yaml
 
+device_tracker: !include device_tracker.yaml
+
 ffmpeg:
 
 notify:
@@ -201,3 +188,7 @@ notify:
 #alarm_control_panel:
 #  - platform: manual
 alert: !include alert.yaml
+
+
+
+

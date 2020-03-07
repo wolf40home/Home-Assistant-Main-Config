@@ -1,0 +1,31 @@
+binary_sensor:
+
+  - platform: mqtt
+    name: "Kellerfenster Kontakt"
+    state_topic: 'nodered/alarmkontakte/FensterKellerV'
+    device_class: window
+  - platform: mqtt
+    name: "Kellerfenster Kontakt Batt"
+    state_topic: "nodered/batt/FensterKellerV"
+    qos: 0
+    device_class: battery
+    
+sensor:
+
+  - platform: mqtt
+    name: "Keller Vorrat Temperatur"
+    state_topic: lkellervorrat/Sensor/Temperature
+    unit_of_measurement: '°C'
+    device_class: temperature
+    
+  - platform: mqtt
+    name: "Keller Vorrat Feuchte"
+    state_topic: lkellervorrat/Sensor/Humidity
+    unit_of_measurement: '%'
+    device_class: humidity
+    
+  - platform: mqtt
+    name: "Keller Vorrat Druck"
+    state_topic: lkellervorrat/Sensor/Pressure
+    device_class: pressure
+    unit_of_measurement: "hPa"

@@ -1,0 +1,9 @@
+sensor:
+
+  - platform: mqtt
+    name: "Mini1 Info"
+    state_topic: mini1/wifi/rssi
+    icon: "mdi:information-outline"
+    json_attributes_topic: mini1/wifi/jstatus
+    unit_of_measurement: "db"
+    

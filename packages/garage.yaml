@@ -5,7 +5,12 @@ binary_sensor:
     name: "Garagentür Innen"
     state_topic: 'nodered/alarmkontakte/garagetuerinnen'
     device_class: door
-
+    
+  - platform: mqtt
+    name: "Garagentür Innen Batt"
+    state_topic: "nodered/batt/garagetuerinnen"
+    qos: 0
+    device_class: battery
 #Licht Garage
 
 input_number:

@@ -1,0 +1,49 @@
+binary_sensor:
+  - platform: octoprint
+    monitored_conditions:
+      - Printing
+      - Printing Error
+
+
+sensor:    
+  - platform: mqtt
+    name: "3D Drucker Ist Temperatur Platte"
+    state_topic: octoPrint/temperature/bed
+    value_template: "{{ value_json.actual }}"
+    unit_of_measurement: '°C'
+    device_class: temperature
+    json_attributes_topic: octoPrint/temperature/bed
+
+  - platform: mqtt
+    name: "3D Drucker Soll Temperatur Platte"
+    state_topic: octoPrint/temperature/bed
+    value_template: "{{ value_json.target }}"
+    unit_of_measurement: '°C'
+    device_class: temperature
+
+  - platform: mqtt
+    name: "3D Drucker Ist Temperatur Extruder"
+    state_topic: octoPrint/temperature/tool0
+    value_template: "{{ value_json.actual }}"
+    unit_of_measurement: '°C'
+    device_class: temperature
+    json_attributes_topic: octoPrint/temperature/tool0
+    
+  - platform: mqtt
+    name: "3D Drucker Soll Temperatur Extruder"
+    state_topic: octoPrint/temperature/tool0
+    value_template: "{{ value_json.target }}"
+    unit_of_measurement: '°C'
+    device_class: temperature
+
+    
+  - platform: mqtt
+    name: "3D Drucker Zeit Abgelaufen"
+    icon: mdi:clock-outline
+    state_topic: octoPrint/zeit/aktuell
+
+
+  - platform: mqtt
+    name: "3D Drucker Zeit Verbleibend"
+    icon: mdi:clock-outline
+    state_topic: octoPrint/zeit/noch
